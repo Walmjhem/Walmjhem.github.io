@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>iWarehouse</title>
+
+  <link rel="stylesheet" href="index2.css">
+
+</head>
+
+<body>
+
+  <!--========== HEADER ==========-->
+  <header class="header">
+
+    <nav class="nav container">
+
+      <a href="#" class="nav__logo">
+        iWarehouse
+      </a>
+
+      <ul class="nav__list">
+
+        <li>
+          <a href="#" class="nav__link">
+            Home
+          </a>
+        </li>
+
+        <li>
+          <a href="#inventory" class="nav__link">
+            Inventory
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="nav__link">
+            Branches
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="nav__button">
+            Contact
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+  </header>
+
+
+  <!--========== INVENTORY ==========-->
+  <section class="inventory" id="inventory">
+
+    <div class="container">
+
+
+      <h2 class="section-title">
+        Branch Products
+      </h2>
+
+      <div class="inventory-box">
+
+        <select
+          id="branchSelect"
+          class="branch-select"
+          onchange="showBranch()"
+        >
+
+<option value="all">
+  All Branches
+</option>
+
+          <option value="cebu">
+            Cebu Branch
+          </option>
+
+          <option value="manila">
+            Manila Branch
+          </option>
+
+          <option value="davao">
+            Davao Branch
+          </option>
+
+        </select>
+
+        <h2 class="branch-title" id="branchTitle">
+          Cebu Branch
+        </h2>
+
+<div class="search-box">
+
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search products..."
+    onkeyup="searchProducts()"
+  >
+
+</div>
+
+        <!-- CATEGORY NAV -->
+<div class="category-nav">
+  <button class="category-btn active" onclick="filterCategory('all')">
+    All
+  </button>
+
+  <button class="category-btn" onclick="filterCategory('laptop')">
+    Laptops
+  </button>
+
+  <button class="category-btn" onclick="filterCategory('phone')">
+    Phones
+  </button>
+
+  <button class="category-btn" onclick="filterCategory('mouse')">
+    Mouse
+  </button>
+
+  <button class="category-btn" onclick="filterCategory('keyboard')">
+    Keyboards
+  </button>
+</div>
+
+        <div
+          class="products"
+          id="productsContainer"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!--========== PRODUCT MODAL ==========-->
+  <div class="modal" id="productModal">
+
+    <div class="modal-content">
+
+      <span
+        class="close-modal"
+        onclick="closeModal()"
+      >
+        &times;
+      </span>
+
+      <!-- LEFT IMAGE -->
+      <img
+        id="modalImage"
+        class="modal-image"
+        src=""
+        alt=""
+      >
+
+      <!-- RIGHT CONTENT -->
+      <div class="modal-details">
+
+        <h2 id="modalTitle"></h2>
+
+        <div class="spec-grid">
+
+          <div class="spec-card">
+            <div class="spec-label">Quantity</div>
+            <div class="spec-value" id="modalQuantity"></div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-label">Color</div>
+            <div class="spec-value" id="modalColor"></div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-label">Storage</div>
+            <div class="spec-value" id="modalStorage"></div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-label">Processor</div>
+            <div class="spec-value" id="modalProcessor"></div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-label">Display</div>
+            <div class="spec-value" id="modalDisplay"></div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-label">Battery</div>
+            <div class="spec-value" id="modalBattery"></div>
+          </div>
+
+          <div class="spec-card">
+            <div class="spec-label">Camera</div>
+            <div class="spec-value" id="modalCamera"></div>
+          </div>
+
+<div class="spec-card">
+  <div class="spec-label">Price</div>
+  <div class="spec-value" id="modalPrice"></div>
+</div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!--========== FOOTER ==========-->
+  <footer class="footer">
+
+    <h3>iWarehouse</h3>
+
+    <p>
+      Making Technology Available For Everyone
+    </p>
+
+  </footer>
+
+  <script src="index2.js"></script>
+
+</body>
+</html>

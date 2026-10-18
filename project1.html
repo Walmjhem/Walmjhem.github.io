@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="web.css">
+
+<title>Airbnb Houses</title>
+</head>
+<body>
+
+<a href="#" class="scrolltop" id="scroll-top">
+    <i class='bx bx-chevron-up scrolltop__icon'></i>
+</a>
+
+<header class="l-header" id="header">
+<nav class="nav bd-container">
+    <a href="#" class="nav__logo">StayEasy</a>
+
+    <div class="nav__menu" id="nav-menu">
+        <ul class="nav__list">
+            <li><a href="#home" class="nav__link active-link">Home</a></li>
+            <li><a href="#about" class="nav__link">About</a></li>
+            <li><a href="#services" class="nav__link">Amenities</a></li>
+            <li><a href="#menu" class="nav__link">Houses</a></li>
+            <li><a href="#contact" class="nav__link">Contact</a></li>
+            <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
+        </ul>
+    </div>
+
+    <div class="nav__toggle" id="nav-toggle">
+        <i class='bx bx-menu'></i>
+    </div>
+</nav>
+</header>
+
+<main class="l-main">
+
+<section class="home" id="home">
+<div class="home__container bd-container bd-grid">
+    <div class="home__data">
+        <h1 class="home__title">Find Your Perfect Stay</h1>
+        <h2 class="home__subtitle">Multiple luxury Airbnb houses available</h2>
+        <a href="#menu" class="button">Browse Houses</a>
+    </div>
+    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" class="home__img">
+</div>
+</section>
+
+<!-- ABOUT (generalized for multiple listings) -->
+<section class="about section bd-container" id="about">
+<div class="about__container bd-grid">
+    <div class="about__data">
+        <span class="section-subtitle">About</span>
+        <h2 class="section-title">Your Stay Platform</h2>
+        <p class="about__description">
+            Browse and book different Airbnb-style houses including villas, beach houses, and cabins in one place.
+        </p>
+    </div>
+    <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994" class="about__img">
+</div>
+</section>
+
+<!-- AMENITIES (kept global) -->
+<section class="services section bd-container" id="services">
+<span class="section-subtitle">Features</span>
+<h2 class="section-title">Amenities</h2>
+
+<div class="services__container bd-grid">
+    <div class="services__content">
+        <h3 class="services__title">Free WiFi</h3>
+        <p class="services__description">Fast internet</p>
+    </div>
+
+    <div class="services__content">
+        <h3 class="services__title">Swimming Pool</h3>
+        <p class="services__description">Available in selected houses</p>
+    </div>
+
+    <div class="services__content">
+        <h3 class="services__title">Parking</h3>
+        <p class="services__description">Secure parking spaces</p>
+    </div>
+</div>
+</section>
+
+<!-- 🔥 THIS IS NOW MULTIPLE HOUSES (replacing rooms concept) -->
+<section class="menu section bd-container" id="menu">
+<span class="section-subtitle">Available</span>
+<h2 class="section-title">Houses</h2>
+
+<div class="menu__container bd-grid">
+
+    <div class="menu__content">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" class="menu__img">
+        <h3 class="menu__name">Modern Villa</h3>
+        <span class="menu__detail">Bacolod City • ₱3,500/night</span>
+    </div>
+
+    <div class="menu__content">
+        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85" class="menu__img">
+        <h3 class="menu__name">Beach House</h3>
+        <span class="menu__detail">Talisay • ₱4,200/night</span>
+    </div>
+
+    <div class="menu__content">
+        <img src="https://images.unsplash.com/photo-1556912173-3bb406ef7e77" class="menu__img">
+        <h3 class="menu__name">Mountain Cabin</h3>
+        <span class="menu__detail">Vallehermoso • ₱2,800/night</span>
+    </div>
+
+</div>
+</section>
+
+<section class="contact section bd-container" id="contact">
+<div class="contact__container bd-grid">
+    <div class="contact__data">
+        <span class="section-subtitle">Book Now</span>
+        <h2 class="section-title">Reserve your stay</h2>
+        <p class="contact__description">Message us to book your preferred house.</p>
+    </div>
+
+    <div class="contact__button">
+        <a href="#" class="button">Contact</a>
+    </div>
+</div>
+</section>
+
+</main>
+
+<script src="https://unpkg.com/scrollreveal"></script>
+<script src="web.js"></script>
+
+</body>
+</html>

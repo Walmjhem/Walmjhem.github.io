@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Crumb & Co. Bakery | Owner Admin</title>
+<style>
+:root{color-scheme:light;--bg:#eef4ee;--paper:#fbfdf9;--ink:#102a22;--muted:#587066;--line:#d6e3d8;--pan:#1f7a5c;--ube:#6b4ce6;--ube2:#a592ff;--sun:#ffc531;--glass:rgba(251,253,249,.72);--sh:0 20px 50px rgba(16,42,34,.1);--ease:cubic-bezier(.2,.8,.2,1)}
+[data-theme=dark]{color-scheme:dark;--bg:#0a1914;--paper:#10261e;--ink:#e9f5ee;--muted:#9bb3a7;--line:#21443a;--glass:rgba(16,38,30,.72);--sh:0 20px 50px rgba(0,0,0,.45)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(38% 38% at 18% 12%,rgba(107,76,230,.18),transparent),radial-gradient(34% 34% at 86% 18%,rgba(255,197,49,.2),transparent),radial-gradient(44% 44% at 62% 92%,rgba(31,122,92,.18),transparent);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate3d(4%,3%,0) rotate(6deg)}}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}a{color:inherit}
+:focus-visible{outline:3px solid var(--ube2);outline-offset:3px}
+#scrollbar{position:fixed;inset:0 0 auto;height:3px;z-index:2000;transform:scaleX(0);transform-origin:0;background:linear-gradient(90deg,var(--ube),var(--sun))}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(18px,4vw,64px);background:var(--glass);backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--line)}
+.topbar>div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:800;letter-spacing:-.5px}
+.brand-mark{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:linear-gradient(145deg,var(--ube),var(--pan));box-shadow:0 8px 22px rgba(107,76,230,.35)}
+.nav{display:flex;gap:28px}.nav a{text-decoration:none;color:var(--muted);font-weight:650;font-size:.92rem;transition:color .2s}.nav a:hover{color:var(--ube)}
+.primary,.secondary,.cart-button,.switch-page-button,.admin-button,.theme-btn,.filter,.add-btn,.mini-button{position:relative;overflow:hidden;transition:translate .25s var(--ease),transform .2s,background .2s,border-color .2s,box-shadow .2s,color .2s}
+.primary,.secondary,.cart-button,.switch-page-button,.admin-button,.theme-btn{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:12px;padding:0 18px;font-size:.88rem;font-weight:750;text-decoration:none;border:1px solid transparent}
+.primary{background:linear-gradient(135deg,var(--ube),#4b32c4);color:#fff;box-shadow:0 10px 24px rgba(107,76,230,.35)}.primary:hover{box-shadow:0 14px 32px rgba(107,76,230,.5)}.primary:disabled{opacity:.5;cursor:not-allowed}
+.secondary,.switch-page-button,.admin-button,.theme-btn{background:var(--glass);border-color:var(--line);color:var(--ink)}.secondary:hover,.switch-page-button:hover,.theme-btn:hover{border-color:var(--ube2)}.secondary:disabled{opacity:.5;cursor:not-allowed}
+.theme-btn{padding:0 13px}
+.cart-button{background:var(--ink);color:var(--bg)}
+.cart-count{display:inline-grid;place-items:center;min-width:22px;height:22px;border-radius:99px;background:var(--sun);color:#3a2a00;font-size:.75rem;font-weight:800}
+.cart-count.bump{animation:bump .4s var(--ease)}@keyframes bump{40%{transform:scale(1.45)}}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.4);transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}@keyframes rip{to{transform:scale(1);opacity:0}}
+.eyebrow{color:var(--ube);font-size:.8rem;font-weight:750;letter-spacing:.4px}
+h1{font:600 clamp(3rem,6.4vw,5.8rem)/.98 Georgia,"Times New Roman",serif;letter-spacing:-.05em;margin:16px 0 20px}
+h1 em{font-style:italic;background:linear-gradient(100deg,var(--ube),var(--pan));-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font:600 clamp(2rem,4vw,3rem)/1.1 Georgia,"Times New Roman",serif;letter-spacing:-.04em;margin:8px 0 0}
+.section-sub{color:var(--muted);margin:10px 0 0}
+.hero{max-width:1320px;margin:auto;padding:clamp(38px,6vw,84px) clamp(20px,5vw,72px);display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,5vw,76px);align-items:center}
+.hero>div:first-child>*{animation:rise .8s var(--ease) backwards;animation-delay:calc(var(--k,0)*90ms)}
+.hero-copy{max-width:480px;color:var(--muted);line-height:1.8}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.hero-note{display:flex;gap:10px;margin-top:26px;color:var(--muted);font-size:.85rem}.hero-note strong{color:var(--ink)}
+.hero-art{--px:0;--py:0;position:relative;min-height:clamp(300px,37vw,470px);display:grid;place-items:center}
+.hero-art::before{content:"";position:absolute;width:min(70%,340px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 30% 25%,var(--paper),transparent 75%),var(--glass);box-shadow:var(--sh)}
+.hero-circle{position:absolute;width:min(94%,460px);aspect-ratio:1;border-radius:50%;background:conic-gradient(var(--ube),var(--sun),var(--pan),var(--ube));-webkit-mask:radial-gradient(circle,transparent 71%,#000 72%);mask:radial-gradient(circle,transparent 71%,#000 72%);animation:spin 18s linear infinite}
+.hero-pastry{position:relative;z-index:1;font-size:clamp(8rem,17vw,14rem);translate:calc(var(--px)*1px) calc(var(--py)*1px);filter:drop-shadow(0 28px 22px rgba(16,42,34,.28));animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:rotate(-10deg)}50%{transform:translateY(-16px) rotate(-5deg)}}@keyframes spin{to{transform:rotate(360deg)}}
+.sticker{position:absolute;z-index:2;right:2%;top:10%;display:grid;place-items:center;width:104px;height:104px;border-radius:50%;background:var(--sun);color:#3a2a00;text-align:center;font-size:.74rem;font-weight:850;line-height:1.35;animation:wob 7s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(14deg) scale(1.05)}}
+.float-tag{position:absolute;z-index:2;left:0;bottom:10%;display:grid;background:var(--glass);backdrop-filter:blur(14px);border:1px solid var(--line);padding:13px 17px 13px 38px;border-radius:14px;box-shadow:var(--sh);font-size:.86rem}
+.float-tag::before{content:"";position:absolute;left:16px;top:19px;width:9px;height:9px;border-radius:50%;background:#2fd08a;animation:ping 2s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(47,208,138,.6)}100%{box-shadow:0 0 0 12px transparent}}
+.section{max-width:1320px;margin:auto;padding:28px clamp(20px,5vw,72px) clamp(56px,7vw,90px)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.search{display:flex;align-items:center;gap:8px;min-width:230px;padding:0 14px;min-height:42px;border-radius:12px;background:var(--glass);border:1px solid var(--line);transition:.2s}.search:focus-within{border-color:var(--ube);box-shadow:0 0 0 4px rgba(107,76,230,.15)}
+.search input{flex:1;min-width:0;border:0;background:none;outline:0}
+.tools select,.list-search,.field input,.field select,.field textarea{min-height:42px;padding:10px 13px;border-radius:12px;border:1px solid var(--line);background:var(--paper);outline:0;transition:border-color .2s,box-shadow .2s}
+.tools select{width:auto}.list-search,.field input,.field select,.field textarea{width:100%}
+.field input:focus,.field select:focus,.field textarea:focus,.list-search:focus{border-color:var(--ube2);box-shadow:0 0 0 4px rgba(165,146,255,.2)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 28px}
+.filter{border:1px solid var(--line);border-radius:99px;padding:9px 16px;background:var(--glass);color:var(--muted);font-size:.88rem;font-weight:700}
+.filter:hover{border-color:var(--ube2);color:var(--ink)}.filter.active{background:var(--ink);color:var(--bg);border-color:var(--ink);box-shadow:0 8px 20px rgba(16,42,34,.25)}
+.product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.8vw,24px)}
+.product-card{--rx:0deg;--ry:0deg;position:relative;min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;cursor:pointer;transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .25s var(--ease),box-shadow .3s,border-color .3s;animation:rise .6s var(--ease) backwards;animation-delay:calc(var(--i,0)*50ms)}
+.product-card::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(107,76,230,.18),transparent 70%)}
+.product-card:hover{border-color:var(--ube2);box-shadow:var(--sh)}.product-card:hover::after{opacity:1}
+@keyframes rise{from{opacity:0;transform:translateY(22px) scale(.96)}}
+.product-art{height:clamp(150px,17vw,220px);display:grid;place-items:center;position:relative;overflow:hidden;background:linear-gradient(145deg,rgba(107,76,230,.12),rgba(255,197,49,.2))}
+.product-art::before{content:"";position:absolute;width:62%;aspect-ratio:1;border-radius:50%;background:var(--glass)}
+.product-emoji{position:relative;font-size:clamp(4.4rem,7vw,6rem);filter:drop-shadow(0 12px 10px rgba(16,42,34,.2));transition:transform .4s var(--ease)}.product-card:hover .product-emoji{transform:scale(1.12) rotate(-6deg)}
+.product-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}.product-card:hover .product-photo{transform:scale(1.07)}
+.product-info{padding:clamp(13px,1.5vw,20px)}.product-category{color:var(--pan);font-size:.74rem;font-weight:800}
+.product-name{margin:6px 0 0;font-size:1rem;font-weight:800;letter-spacing:-.3px}.product-desc{margin:6px 0 0;color:var(--muted);font-size:.84rem}
+.product-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:16px}.price{font-weight:850;font-size:1.05rem}
+.add-btn{width:40px;height:40px;border:0;border-radius:50%;background:var(--sun);color:#3a2a00;font-size:1.4rem;font-weight:700;box-shadow:0 6px 16px rgba(255,197,49,.45)}.add-btn:hover{transform:rotate(90deg) scale(1.1)}
+.empty{display:none;padding:28px;text-align:center;color:var(--muted)}
+.skeleton-card{height:300px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(100deg,transparent 30%,rgba(107,76,230,.12) 50%,transparent 70%) var(--paper);background-size:200% 100%;animation:shim 1.3s linear infinite}@keyframes shim{to{background-position:-200% 0}}
+.promise{background:linear-gradient(120deg,var(--pan),#154d3b);color:#eafaf1}
+.promise-inner{max-width:1320px;margin:auto;padding:clamp(28px,4vw,44px) clamp(20px,5vw,72px);display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.promise-item{display:flex;align-items:center;gap:14px}.promise-item strong{display:block}.promise-item span{font-size:.86rem;opacity:.85}
+.promise-icon{display:grid;place-items:center;width:48px;height:48px;flex:none;border-radius:14px;background:rgba(255,255,255,.14);font-size:1.4rem}
+.visit{max-width:1320px;margin:auto;padding:clamp(48px,7vw,82px) clamp(20px,5vw,72px);display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}.visit p{max-width:580px;color:var(--muted);line-height:1.7;margin:0}
+footer{border-top:1px solid var(--line);padding:22px clamp(20px,5vw,72px);color:var(--muted);font-size:.83rem}.footer-inner{max-width:1320px;margin:auto;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease) var(--d,0ms),transform .7s var(--ease) var(--d,0ms)}.reveal.in{opacity:1;transform:none}
+.modal-backdrop{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(8,24,18,.6);backdrop-filter:blur(8px)}.modal-backdrop.open{display:flex;animation:fade .25s}
+.modal-panel{position:relative;width:min(100%,680px);max-height:88vh;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 90px rgba(0,0,0,.35);padding:26px;animation:pop .45s var(--ease)}
+@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(30px) scale(.94)}}
+.modal-close{position:absolute;right:14px;top:14px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:1.2rem;transition:transform .3s}.modal-close:hover{transform:rotate(90deg)}
+.detail-image{width:100%;height:min(42vh,330px);object-fit:cover;border-radius:16px;background:var(--bg)}.detail-emoji{display:none;place-items:center;font-size:7rem}.detail-emoji.show{display:grid}
+.detail-title{font:600 clamp(1.8rem,4vw,2.5rem) Georgia,serif;letter-spacing:-.03em;margin:12px 0 6px}
+.detail-description{line-height:1.75;color:var(--muted);white-space:pre-wrap;margin:14px 0 20px}
+.detail-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.basket-lines{display:grid;margin:18px 0}.basket-line{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.basket-thumb,.basket-thumb-emoji{width:64px;height:64px;border-radius:14px;object-fit:cover;background:var(--bg);display:grid;place-items:center;font-size:2rem}
+.basket-line-name{font-weight:750}.basket-line-price{font-size:.86rem;color:var(--muted)}.basket-line-sub{font-weight:750;font-size:.86rem}
+.quantity-controls{display:flex;align-items:center;gap:8px}.quantity-controls button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-weight:800;transition:.2s}.quantity-controls button:hover{background:var(--sun);color:#3a2a00;border-color:var(--sun)}.quantity-controls span{min-width:18px;text-align:center;font-weight:750}
+.basket-total{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:18px;font-size:1.15rem;font-weight:800}
+.basket-empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:14px}.modal-note{font-size:.82rem;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:22px;z-index:1100;max-width:calc(100vw - 28px);padding:13px 20px;border-radius:14px;background:var(--ink);color:var(--bg);box-shadow:0 14px 36px rgba(0,0,0,.3);opacity:0;pointer-events:none;transform:translate(-50%,24px) scale(.96);transition:.35s var(--ease);text-align:center;overflow:hidden}
+.toast.show{opacity:1;transform:translate(-50%,0)}.toast.show::after{content:"";position:absolute;left:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--ube2),var(--sun));animation:tbar 2.3s linear forwards}@keyframes tbar{from{width:100%}to{width:0}}
+.fly{position:fixed;z-index:1200;pointer-events:none;display:grid;place-items:center;border-radius:50%;background:var(--sun) center/cover;font-size:1.4rem;box-shadow:0 10px 24px rgba(0,0,0,.3)}
+@media(max-width:1050px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.topbar{flex-wrap:wrap}.nav{order:3;width:100%;justify-content:center;gap:20px}.hero{grid-template-columns:1fr}.hero-art{order:-1;min-height:300px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.promise-inner,.visit{grid-template-columns:1fr}.visit .primary{justify-self:start}.search{min-width:0;flex:1}}
+@media(max-width:480px){.product-info{padding:12px}.sticker{width:78px;height:78px;font-size:.6rem}.basket-line{grid-template-columns:48px 1fr auto}.basket-thumb,.basket-thumb-emoji{width:48px;height:48px}.topbar{padding:12px 14px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+
+body{--bg:#091712;--paper:#0f241c;--ink:#e8f4ec;--muted:#93ada1;--line:#21443a;--glass:rgba(16,38,30,.72);--sh:0 20px 50px rgba(0,0,0,.45);color-scheme:dark}
+.topbar .nav,.hero,#menu,#story,#visit,footer,#adminToggle{display:none!important}
+.live{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--muted)}.live i{width:8px;height:8px;border-radius:50%;background:#2fd08a;animation:ping 2s infinite}.live.off i{background:#ff6b6b;animation:none}
+.admin-panel{max-width:1480px;margin:auto;padding:clamp(22px,4vw,48px) clamp(18px,4vw,64px) 64px}.admin-inner{padding:0}
+.dashboard-title h2{font:700 clamp(2rem,3.4vw,2.9rem)/1.1 ui-sans-serif,system-ui,sans-serif!important;letter-spacing:-.04em;margin:8px 0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:6px 0 22px}
+.stat{position:relative;overflow:hidden;padding:18px 20px;border-radius:18px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(12px);animation:rise .6s var(--ease) backwards;animation-delay:calc(var(--i)*70ms)}
+.stat::after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border-radius:50%;background:radial-gradient(var(--c,var(--ube)),transparent 70%);opacity:.55}
+.stat span{display:block;color:var(--muted);font-size:.8rem;font-weight:700}.stat b{display:block;margin-top:6px;font-size:1.8rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.dashboard-grid{display:grid;grid-template-columns:minmax(260px,.85fr) minmax(0,1.15fr);gap:22px;align-items:start}
+.dashboard-card,#productForm,.live-preview{background:var(--glass);border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(14px);box-shadow:var(--sh)}
+.dashboard-card{padding:clamp(17px,2vw,26px);min-width:0}.dashboard-card h3{margin:0 0 6px}
+.dashboard-list{display:grid;gap:9px;margin-top:14px;max-height:420px;overflow:auto}
+.manage-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.03);transition:border-color .2s,transform .2s,background .2s}.manage-row:hover{border-color:var(--ube2);transform:translateX(3px);background:rgba(107,76,230,.12)}
+.manage-row strong{display:block;font-size:.9rem;overflow-wrap:anywhere}.manage-row small{color:var(--muted)}.manage-actions{display:flex;gap:6px;flex-wrap:wrap}
+.mini-button{border:1px solid var(--line);background:transparent;border-radius:9px;padding:8px 12px;font-size:.8rem;font-weight:750}.mini-button:hover{background:rgba(107,76,230,.25);border-color:var(--ube2)}.mini-button.danger{color:#ff8b8b;border-color:rgba(255,107,107,.35)}.mini-button.danger:hover{background:rgba(255,107,107,.15)}
+.dashboard-note,.admin-help{color:var(--muted);font-size:.8rem;line-height:1.65}
+#productFormHeading{font:700 1.45rem ui-sans-serif,system-ui,sans-serif!important;margin:30px 0 4px!important}
+.admin-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}#productForm{padding:clamp(17px,2vw,26px)}
+.field{display:flex;flex-direction:column;gap:8px;color:var(--muted);font-size:.83rem;font-weight:700}.field.full{grid-column:1/-1}
+.admin-status{margin-top:14px;padding:13px 15px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted);font-size:.9rem;transition:.3s}.admin-status.success{border-color:rgba(47,208,138,.4);background:rgba(47,208,138,.1);color:#6fe3ae}.admin-status.error{border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.1);color:#ff9d9d}
+.admin-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.upload-preview{display:none;max-width:180px;max-height:150px;object-fit:cover;border-radius:12px}
+.drop{padding:14px;border:1.5px dashed var(--line);border-radius:14px;transition:.2s}.drop.over{border-color:var(--sun);background:rgba(255,197,49,.08)}.hint{font-weight:500;font-size:.78rem}
+.form-wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
+.live-preview{position:sticky;top:96px;padding:16px}.live-preview small{color:var(--muted);font-weight:700}
+.pv-art{position:relative;height:170px;margin:12px 0;border-radius:14px;overflow:hidden;display:grid;place-items:center;font-size:4.5rem;background:linear-gradient(145deg,rgba(107,76,230,.28),rgba(255,197,49,.22))}.pv-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pv-cat{color:var(--sun);font-size:.74rem;font-weight:800}.live-preview h4{margin:4px 0;font-size:1.1rem}.live-preview p{margin:0 0 10px;color:var(--muted);font-size:.86rem;overflow-wrap:anywhere}.list-search{margin-top:12px}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}.dashboard-grid,.form-wrap{grid-template-columns:1fr}.live-preview{position:static}}
+@media(max-width:620px){.admin-form{grid-template-columns:1fr}.field.full{grid-column:auto}.manage-row{flex-wrap:wrap}.live{display:none}}
+</style>
+</head>
+<body>
+<div class="site">
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Crumb and Co. home"><span class="brand-mark">🥐</span><span>crumb & co.</span></a>
+    <nav class="nav" aria-label="Main navigation"><a href="#menu">Our bakes</a><a href="#story">Our promise</a><a href="#visit">Visit us</a></nav>
+    <div id="customerActions" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><a class="switch-page-button" href="index3.html" title="Return to the customer bakery page">Customer page ↗</a><button class="admin-button" id="adminToggle" aria-expanded="true">Owner admin</button></div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div>
+        <div class="eyebrow">Small batches. Big comfort.</div>
+        <h1>A little joy,<br>fresh from the <em>oven.</em></h1>
+        <p class="hero-copy">Your everyday bakery for buttery pastries, soft breads, and sweet little moments. Baked with care, made to be shared — or kept all to yourself.</p>
+        <div class="hero-actions"><a class="primary" href="#menu" style="text-decoration:none">Explore the menu <span aria-hidden="true">↗</span></a><a class="secondary" href="#story" style="text-decoration:none">Why we bake</a></div>
+        <div class="hero-note"><span aria-hidden="true">✦</span><span><strong>Made fresh daily</strong> · Simple ingredients, lovely bakes</span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of a freshly baked croissant">
+        <div class="hero-circle"></div><div class="hero-pastry" aria-hidden="true">🥐</div><div class="sticker">BAKED<br>WITH<br>LOVE ♡</div><div class="float-tag"><strong>Fresh out of the oven</strong><span>Warm, flaky, delicious.</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="menu">
+      <div class="section-head"><div><div class="eyebrow">The good stuff</div><h2>Fresh picks for you</h2><p class="section-sub">Find a new favourite, or stick with a classic.</p></div></div>
+      <div class="filters" role="group" aria-label="Filter products">
+        <button class="filter active" data-filter="all">All treats</button><button class="filter" data-filter="bread">Breads</button><button class="filter" data-filter="pastry">Pastries</button><button class="filter" data-filter="cake">Cakes & sweets</button>
+      </div>
+      <div class="product-grid" id="productGrid">
+        <article class="product-card" data-category="bread"><div class="product-art art-bread"><span class="product-emoji" aria-hidden="true">🍞</span></div><div class="product-info"><div class="product-category">Breads</div><h3 class="product-name">Country Sourdough</h3><div class="product-desc">A crisp golden crust with a soft, tangy centre.</div><div class="product-bottom"><span class="price">₱180</span><button class="add-btn" data-product="Country Sourdough" aria-label="Add Country Sourdough to basket">+</button></div></div></article>
+        <article class="product-card" data-category="pastry"><div class="product-art art-croissant"><span class="product-emoji" aria-hidden="true">🥐</span></div><div class="product-info"><div class="product-category">Pastries</div><h3 class="product-name">Butter Croissant</h3><div class="product-desc">Delicate, flaky layers with rich buttery goodness.</div><div class="product-bottom"><span class="price">₱85</span><button class="add-btn" data-product="Butter Croissant" aria-label="Add Butter Croissant to basket">+</button></div></div></article>
+        <article class="product-card" data-category="cake"><div class="product-art art-cake"><span class="product-emoji" aria-hidden="true">🎂</span></div><div class="product-info"><div class="product-category">Cakes & sweets</div><h3 class="product-name">Strawberry Shortcake</h3><div class="product-desc">Cloud-soft sponge, cream, and sweet strawberries.</div><div class="product-bottom"><span class="price">₱220</span><button class="add-btn" data-product="Strawberry Shortcake" aria-label="Add Strawberry Shortcake to basket">+</button></div></div></article>
+        <article class="product-card" data-category="cake"><div class="product-art art-cookie"><span class="product-emoji" aria-hidden="true">🍪</span></div><div class="product-info"><div class="product-category">Cakes & sweets</div><h3 class="product-name">Choco Chunk Cookie</h3><div class="product-desc">Chewy in the middle, crisp at the edges.</div><div class="product-bottom"><span class="price">₱65</span><button class="add-btn" data-product="Choco Chunk Cookie" aria-label="Add Choco Chunk Cookie to basket">+</button></div></div></article>
+        <article class="product-card" data-category="cake"><div class="product-art art-cupcake"><span class="product-emoji" aria-hidden="true">🧁</span></div><div class="product-info"><div class="product-category">Cakes & sweets</div><h3 class="product-name">Vanilla Cloud Cupcake</h3><div class="product-desc">A fluffy vanilla treat topped with silky frosting.</div><div class="product-bottom"><span class="price">₱75</span><button class="add-btn" data-product="Vanilla Cloud Cupcake" aria-label="Add Vanilla Cloud Cupcake to basket">+</button></div></div></article>
+        <article class="product-card" data-category="pastry"><div class="product-art art-roll"><span class="product-emoji" aria-hidden="true">🍥</span></div><div class="product-info"><div class="product-category">Pastries</div><h3 class="product-name">Cinnamon Swirl</h3><div class="product-desc">Soft, sweet dough rolled with cinnamon sugar.</div><div class="product-bottom"><span class="price">₱95</span><button class="add-btn" data-product="Cinnamon Swirl" aria-label="Add Cinnamon Swirl to basket">+</button></div></div></article>
+        <article class="product-card" data-category="cake"><div class="product-art art-tart"><span class="product-emoji" aria-hidden="true">🥧</span></div><div class="product-info"><div class="product-category">Cakes & sweets</div><h3 class="product-name">Seasonal Fruit Tart</h3><div class="product-desc">Buttery pastry, vanilla custard, and fresh fruit.</div><div class="product-bottom"><span class="price">₱150</span><button class="add-btn" data-product="Seasonal Fruit Tart" aria-label="Add Seasonal Fruit Tart to basket">+</button></div></div></article>
+        <article class="product-card" data-category="pastry"><div class="product-art art-donut"><span class="product-emoji" aria-hidden="true">🍩</span></div><div class="product-info"><div class="product-category">Pastries</div><h3 class="product-name">Classic Glazed Donut</h3><div class="product-desc">Light, pillowy, and finished with a sweet glaze.</div><div class="product-bottom"><span class="price">₱55</span><button class="add-btn" data-product="Classic Glazed Donut" aria-label="Add Classic Glazed Donut to basket">+</button></div></div></article>
+      </div>
+      <div class="empty" id="emptyMessage">No treats in this category just yet.</div>
+    </section>
+
+    <section class="admin-panel" id="adminPanel" hidden>
+      <div class="admin-inner">
+        <div class="eyebrow">Crumb & Co.</div>
+        <div class="dashboard-title"><div><h2 style="font-family:Georgia,serif;font-weight:600;margin:8px 0">Product management</h2><p class="section-sub">Manage your bakery catalogue, categories, photos, and pricing from one place.</p></div></div>
+        <div class="dashboard-grid">
+          <div class="dashboard-card"><h3>Menu sections</h3><p class="section-sub">Add categories that customers can browse.</p><form id="sectionForm" class="admin-form" style="grid-template-columns:1fr;gap:10px"><label class="field">New section name<input id="sectionName" maxlength="40" placeholder="e.g. Seasonal specials" required></label><button class="primary" type="submit">Add section</button></form><div class="dashboard-list" id="sectionList"></div><p class="dashboard-note">Built-in sections (Breads, Pastries, Cakes & sweets) stay available. Custom sections are managed here.</p></div>
+          <div class="dashboard-card"><h3>Product catalogue</h3><p class="section-sub">Review items and edit or remove products.</p><div class="dashboard-list" id="manageProductList"></div><p class="dashboard-note">Use Edit to load a product into the form below. Delete removes it from Firebase Firestore. Image files remain in Cloudinary until deleted there.</p></div>
+        </div>
+        <h3 style="font-family:Georgia,serif;font-weight:600;margin:28px 0 4px" id="productFormHeading">Add a new bake</h3>
+        <p class="section-sub">Add a product photo, name, price, category, and description.</p>
+        <form id="productForm" class="admin-form">
+          <input id="editingProductName" type="hidden" value="">
+          <label class="field">Product name<input id="productName" required maxlength="80" placeholder="e.g. Chocolate Fudge Cake"></label>
+          <label class="field">Price (PHP)<input id="productPrice" required type="number" min="0" step="0.01" placeholder="250"></label>
+          <label class="field">Category<select id="productCategory"><option value="bread">Breads</option><option value="pastry">Pastries</option><option value="cake">Cakes & sweets</option></select></label>
+          <label class="field">Product photo<input id="productImage" type="file" accept="image/png,image/jpeg,image/webp"><img id="imagePreview" class="upload-preview" alt="Selected product preview"></label>
+          <label class="field full">Description<textarea id="productDescription" rows="2" maxlength="240" placeholder="Describe this delicious bake..."></textarea></label>
+          <div class="field full"><div class="admin-actions"><button class="primary" type="submit" id="saveProduct">Upload & add product</button><button class="secondary" type="button" id="cancelEdit" hidden>Cancel edit</button></div><div id="adminStatus" class="admin-status" role="status" aria-live="polite">Manage the products displayed in the shop.</div></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="promise" id="story"><div class="promise-inner"><div class="promise-item"><span class="promise-icon" aria-hidden="true">🌾</span><div><strong>Thoughtful ingredients</strong><span>Simple ingredients, carefully chosen.</span></div></div><div class="promise-item"><span class="promise-icon" aria-hidden="true">🧑‍🍳</span><div><strong>Baked in small batches</strong><span>Care in every fold, crumb, and swirl.</span></div></div><div class="promise-item"><span class="promise-icon" aria-hidden="true">♡</span><div><strong>Made for sharing</strong><span>A little something for every kind of day.</span></div></div></div></section>
+
+    <section class="visit" id="visit"><div><div class="eyebrow">Come say hello</div><h2>Your next favourite is waiting.</h2><p>Drop by for your daily pastry, pick up a treat for someone you love, or make an ordinary day feel a little more special.</p></div><a class="primary" href="#menu" style="text-decoration:none; white-space:nowrap">Browse the bakes ↗</a></section>
+  </main>
+  <footer><div class="footer-inner"><span class="brand" style="font-size:.98rem"><span class="brand-mark" style="width:32px;height:32px;font-size:17px">🥐</span><span>crumb & co.</span></span><span>Sample landing page · Product names and prices are placeholders</span><span>Freshly baked, always with care.</span></div></footer>
+</div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB1G-ia-NZ2SssegocFJRX1CrkhXH3xrHk",
+  authDomain: "miss-lau-app.firebaseapp.com",
+  projectId: "miss-lau-app",
+  storageBucket: "miss-lau-app.appspot.com",
+  messagingSenderId: "1035558029907",
+  appId: "1:1035558029907:web:8f1af22b3f32121e8d14a6",
+  measurementId: "G-7DCEVP3D1T"
+};
+const CLOUDINARY_CLOUD_NAME = 'ajtiipby';
+// Cloudinary unsigned upload preset configured for this bakery.
+const CLOUDINARY_UPLOAD_PRESET = 'bakery_uploads';
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const productsCollection = db.collection('products');
+const sectionsCollection = db.collection('menuSections');
+const categoryNames = { bread: 'Breads', pastry: 'Pastries', cake: 'Cakes & sweets' };
+
+const emptyMessage = document.getElementById('emptyMessage');
+const productGrid = document.getElementById('productGrid');
+const adminPanel = document.getElementById('adminPanel');
+const adminToggle = document.getElementById('adminToggle');
+const imageInput = document.getElementById('productImage');
+const imagePreview = document.getElementById('imagePreview');
+const adminStatus = document.getElementById('adminStatus');
+document.body.classList.add('admin-mode');
+adminPanel.hidden = false;
+
+let productsCache = [];
+let customSections = [];
+let toastTimer;
+let activeFilter = 'all';
+
+function categoryLabel(value, fallback) {
+  if (categoryNames[value]) return categoryNames[value];
+  const custom = customSections.find(section => section.value === value);
+  return custom ? custom.label : (fallback || value || 'Bakery');
+}
+function setStatus(kind, message) { adminStatus.className = 'admin-status' + (kind ? ' ' + kind : ''); adminStatus.textContent = message; }
+function formatMoney(value) { return '₱' + Number(value || 0).toLocaleString('en-PH', { maximumFractionDigits: 2 }); }
+
+function renderProduct(product) {
+  const card = document.createElement('article'); card.className = 'product-card'; card.dataset.id = product.id; card.dataset.category = product.category || 'bread';
+  const art = document.createElement('div'); art.className = 'product-art';
+  if (product.imageUrl) { const img = document.createElement('img'); img.className = 'product-photo'; img.src = product.imageUrl; img.alt = product.name || 'Product'; img.loading = 'lazy'; art.append(img); }
+  else { const emoji = document.createElement('span'); emoji.className = 'product-emoji'; emoji.textContent = '🥐'; art.append(emoji); }
+  const info = document.createElement('div'); info.className = 'product-info';
+  const cat = document.createElement('div'); cat.className = 'product-category'; cat.textContent = categoryLabel(product.category, product.categoryLabel);
+  const title = document.createElement('h3'); title.className = 'product-name'; title.textContent = product.name || 'Untitled';
+  const desc = document.createElement('div'); desc.className = 'product-desc'; desc.textContent = product.description || 'Freshly made with care.';
+  const bottom = document.createElement('div'); bottom.className = 'product-bottom'; const price = document.createElement('span'); price.className = 'price'; price.textContent = formatMoney(product.price); bottom.append(price);
+  info.append(cat, title, desc, bottom); card.append(art, info); return card;
+}
+function applyFilter() {
+  let visible = 0;
+  productGrid.querySelectorAll('.product-card').forEach(card => {
+    const match = activeFilter === 'all' || card.dataset.category === activeFilter;
+    card.style.display = match ? '' : 'none'; if (match) visible++;
+  });
+  emptyMessage.style.display = visible ? 'none' : 'block';
+}
+function applyCatalogUpdate() {
+  productGrid.replaceChildren(...productsCache.map(renderProduct));
+  renderManageProducts();
+  applyFilter();
+}
+function loadProducts() {
+  // Live listener: any add / edit / delete refreshes the lists automatically (no re-subscribing needed).
+  productsCollection.onSnapshot(snap => {
+    productsCache = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      .sort((a, b) => ((b.createdAt && b.createdAt.seconds) || 0) - ((a.createdAt && a.createdAt.seconds) || 0));
+    applyCatalogUpdate();
+  }, error => {
+    console.error(error);
+    setStatus('error', 'Could not load Firebase products (' + (error.code || error.message || 'unknown error') + '). Check Firestore Database and rules for /products/{productId}.');
+  });
+}
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message; toast.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2300);
+}
+document.querySelector('.filters').addEventListener('click', event => {
+  const button = event.target.closest('.filter'); if (!button) return;
+  activeFilter = button.dataset.filter;
+  document.querySelectorAll('.filters .filter').forEach(item => item.classList.toggle('active', item === button));
+  applyFilter();
+});
+adminToggle.addEventListener('click', () => adminPanel.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+imageInput.addEventListener('change', () => {
+  const file = imageInput.files && imageInput.files[0];
+  if (!file) { imagePreview.style.display = 'none'; imagePreview.removeAttribute('src'); return; }
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) {
+    imageInput.value = ''; imagePreview.style.display = 'none';
+    setStatus('error', 'Choose a JPG, PNG, or WebP image smaller than 5 MB.'); return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => { imagePreview.src = reader.result; imagePreview.style.display = 'block'; };
+  reader.readAsDataURL(file);
+});
+document.getElementById('productForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const file = imageInput.files && imageInput.files[0];
+  const name = document.getElementById('productName').value.trim();
+  const price = Number(document.getElementById('productPrice').value);
+  const category = document.getElementById('productCategory').value;
+  const description = document.getElementById('productDescription').value.trim();
+  const editingId = document.getElementById('editingProductName').value;
+  const existing = editingId ? productsCache.find(p => p.id === editingId) : null;
+  if (!name || !Number.isFinite(price) || price < 0 || (!file && !existing)) {
+    adminStatus.className = 'admin-status error';
+    adminStatus.textContent = 'Enter a product name, valid price, and choose an image for a new product.';
+    return;
+  }
+  const saveButton = document.getElementById('saveProduct');
+  saveButton.disabled = true;
+  saveButton.textContent = 'Saving…';
+  adminStatus.className = 'admin-status';
+  try {
+    let imageUrl = existing?.imageUrl || '';
+    let cloudinaryPublicId = existing?.cloudinaryPublicId || '';
+    if (file) {
+      adminStatus.textContent = 'Uploading image to Cloudinary…';
+      const uploadData = new FormData();
+      uploadData.append('file', file);
+      uploadData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, { method: 'POST', body: uploadData });
+      const result = await response.json();
+      if (!response.ok || !result.secure_url) throw new Error(result.error?.message || 'Cloudinary upload failed. Verify cloud name and unsigned preset.');
+      imageUrl = result.secure_url;
+      cloudinaryPublicId = result.public_id || '';
+    }
+    const productData = { name, price, category, description, imageUrl, cloudinaryPublicId, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+    if (editingId) {
+      await productsCollection.doc(editingId).set(productData, { merge: true });
+    } else {
+      productData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+      await productsCollection.add(productData);
+    }
+    adminStatus.className = 'admin-status success';
+    adminStatus.textContent = editingId ? 'Product updated in Firebase.' : 'Product saved to Firebase. Its image is hosted by Cloudinary.';
+    event.target.reset();
+    imagePreview.style.display = 'none';
+    imagePreview.removeAttribute('src');
+    document.getElementById('editingProductName').value = '';
+    document.getElementById('productFormHeading').textContent = 'Add a new bake';
+    document.getElementById('saveProduct').textContent = 'Upload & add product';
+    document.getElementById('cancelEdit').hidden = true;
+    imageInput.required = true;
+  } catch (error) {
+    console.error('Product save failed:', error);
+    adminStatus.className = 'admin-status error';
+    adminStatus.textContent = 'Save failed: ' + (error.code || error.message || 'Check Firebase rules and Cloudinary preset.');
+  } finally {
+    saveButton.disabled = false;
+    saveButton.textContent = document.getElementById('editingProductName').value ? 'Save changes' : 'Upload & add product';
+  }
+});
+
+// Owner dashboard helpers for the interactive portfolio preview.
+const builtInSections = [
+  { value: 'bread', label: 'Breads' },
+  { value: 'pastry', label: 'Pastries' },
+  { value: 'cake', label: 'Cakes & sweets' }
+];
+function renderManageProducts(){
+ const list=document.getElementById('manageProductList');list.replaceChildren();
+ if(!productsCache.length){const empty=document.createElement('p');empty.className='dashboard-note';empty.textContent='No products in Firebase yet. Add your first bake below.';list.append(empty);return;}
+ productsCache.forEach(product=>{const row=document.createElement('div');row.className='manage-row';const info=document.createElement('div');const title=document.createElement('strong');title.textContent=product.name||'Untitled';const detail=document.createElement('small');detail.textContent=categoryLabel(product.category,product.categoryLabel)+' · '+formatMoney(product.price);info.append(title,detail);const actions=document.createElement('div');actions.className='manage-actions';const edit=document.createElement('button');edit.className='mini-button';edit.type='button';edit.textContent='Edit';edit.addEventListener('click',()=>{document.getElementById('editingProductName').value=product.id;document.getElementById('productName').value=product.name||'';document.getElementById('productPrice').value=product.price??'';document.getElementById('productCategory').value=product.category||'bread';document.getElementById('productDescription').value=product.description||'';imageInput.required=false;document.getElementById('productFormHeading').textContent='Edit product';document.getElementById('saveProduct').textContent='Save changes';document.getElementById('cancelEdit').hidden=false;adminStatus.className='admin-status';adminStatus.textContent='Leave the image blank to keep the current Cloudinary image.';document.getElementById('productForm').scrollIntoView({behavior:'smooth',block:'start'});});const del=document.createElement('button');del.className='mini-button danger';del.type='button';del.textContent='Delete';del.addEventListener('click',async()=>{if(!confirm('Delete '+(product.name||'this product')+' from Firebase?'))return;try{await productsCollection.doc(product.id).delete();try{localStorage.setItem('crumb-co-product-deleted-v1',JSON.stringify({id:String(product.id),at:Date.now()}));}catch(storageError){}adminStatus.className='admin-status success';adminStatus.textContent='Product deleted from Firebase. It will also be removed from customers’ open baskets when the live catalogue updates.';}catch(e){adminStatus.className='admin-status error';adminStatus.textContent='Delete failed: '+e.message;}});actions.append(edit,del);row.append(info,actions);list.append(row);});
+}
+function renderSections() {
+  const list = document.getElementById('sectionList');
+  list.replaceChildren();
+  const select = document.getElementById('productCategory');
+  const selectedValue = select.value;
+  select.replaceChildren();
+  [...builtInSections, ...customSections].forEach(section => {
+    const option = document.createElement('option'); option.value = section.value; option.textContent = section.label; select.append(option);
+    const row = document.createElement('div'); row.className = 'manage-row';
+    const name = document.createElement('strong'); name.textContent = section.label; row.append(name);
+    if (section.custom) {
+      const remove = document.createElement('button'); remove.className = 'mini-button danger'; remove.type = 'button'; remove.textContent = 'Delete';
+      remove.addEventListener('click', async () => {
+        const used = productsCache.some(product => product.category === section.value);
+        if (used && !confirm('Products use this section. Delete the section anyway?')) return;
+        try { await sectionsCollection.doc(section.id).delete(); adminStatus.className='admin-status success'; adminStatus.textContent='Menu section deleted from Firebase.'; }
+        catch (error) { adminStatus.className='admin-status error'; adminStatus.textContent='Could not delete section: '+(error.code||error.message); }
+      }); row.append(remove);
+    }
+    list.append(row);
+  });
+  if ([...select.options].some(option => option.value === selectedValue)) select.value = selectedValue;
+  const filterWrap = document.querySelector('.filters');
+  filterWrap.querySelectorAll('[data-custom-section="true"]').forEach(button => button.remove());
+  customSections.forEach(section => {
+    const button = document.createElement('button'); button.className='filter'; button.dataset.filter=section.value; button.dataset.customSection='true'; button.textContent=section.label;
+    if (activeFilter === section.value) button.classList.add('active');
+    filterWrap.append(button);
+  });
+  if (activeFilter !== 'all' && !categoryNames[activeFilter] && !customSections.some(item => item.value === activeFilter)) {
+    activeFilter = 'all';
+    filterWrap.querySelector('[data-filter="all"]').classList.add('active');
+  }
+}
+sectionsUnsubscribe = sectionsCollection.orderBy('label').onSnapshot(snap => {
+  customSections = snap.docs.map(doc => ({id:doc.id, ...doc.data(), custom:true})).filter(section => section.value && section.label).sort((a, b) => String(a.label).localeCompare(String(b.label)));
+  renderSections();
+  applyCatalogUpdate();
+}, error => { console.error('Menu sections listener failed:', error); adminStatus.className='admin-status error'; adminStatus.textContent='Could not load menu sections ('+(error.code||error.message||'unknown error')+'). Check Firestore rules for /menuSections/{sectionId}.'; });
+document.getElementById('sectionForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  const label = document.getElementById('sectionName').value.trim();
+  if (!label) return;
+  if ([...builtInSections, ...customSections].some(section => section.label.toLowerCase() === label.toLowerCase())) {
+    adminStatus.className='admin-status error'; adminStatus.textContent='A section with that name already exists.'; return;
+  }
+  const slug = label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'section';
+  const value = 'custom-' + slug;
+  try {
+    adminStatus.className='admin-status'; adminStatus.textContent='Saving menu section to Firebase…';
+    await sectionsCollection.add({value, label, createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    event.target.reset(); adminStatus.className='admin-status success'; adminStatus.textContent='Menu section saved. It will appear on the customer page automatically.';
+  } catch(error) { console.error(error); adminStatus.className='admin-status error'; adminStatus.textContent='Could not add menu section ('+(error.code||error.message)+'). Check Firestore rules for /menuSections/{sectionId}.'; }
+});
+document.getElementById('cancelEdit').addEventListener('click', () => {
+  document.getElementById('productForm').reset();
+  imageInput.required = false;
+  document.getElementById('editingProductName').value = '';
+  document.getElementById('productFormHeading').textContent = 'Add a new bake';
+  document.getElementById('saveProduct').textContent = 'Upload & add product';
+  document.getElementById('cancelEdit').hidden = true;
+  imagePreview.style.display = 'none';
+});
+loadProducts();
+</script>
+<script>
+(()=>{
+const $=s=>document.querySelector(s),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,fine=matchMedia('(pointer:fine)').matches;
+const FX='.primary,.secondary,.cart-button,.filter,.add-btn,.mini-button,.theme-btn';
+document.addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.closest(FX);if(!b||reduce)return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)*2,d=document.createElement('span');d.className='ripple';d.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.append(d);setTimeout(()=>d.remove(),650);});
+if(fine&&!reduce){const M='.primary,.cart-button';document.addEventListener('pointermove',e=>{const b=e.target.closest&&e.target.closest(M);if(!b)return;const r=b.getBoundingClientRect();b.style.translate=`${(e.clientX-r.left-r.width/2)*.16}px ${(e.clientY-r.top-r.height/2)*.26}px`;});document.addEventListener('pointerout',e=>{const b=e.target.closest&&e.target.closest(M);if(b)b.style.translate='';});}
+const bar=document.createElement('div');bar.id='scrollbar';document.body.append(bar);
+const prog=()=>{const h=document.documentElement;bar.style.transform=`scaleX(${h.scrollTop/((h.scrollHeight-h.clientHeight)||1)})`};addEventListener('scroll',prog,{passive:true});prog();
+
+const live=document.createElement('span');live.className='live';live.innerHTML='<i></i><em style="font-style:normal">Live sync</em>';$('#customerActions').before(live);
+const net=()=>{live.classList.toggle('off',!navigator.onLine);live.lastChild.textContent=navigator.onLine?'Live sync':'Offline';};addEventListener('online',net);addEventListener('offline',net);net();
+const stats=document.createElement('div');stats.className='stats';
+stats.innerHTML=[['Products','sP','--ube'],['Menu sections','sS','--sun'],['Average price','sA','--pan'],['Top section','sT','--ube2']].map((s,i)=>`<div class="stat" style="--i:${i};--c:var(${s[2]})"><span>${s[0]}</span><b id="${s[1]}">–</b></div>`).join('');
+$('.dashboard-grid').before(stats);
+function tween(el,to,fmt){const from=+el.dataset.v||0;el.dataset.v=to;if(reduce){el.textContent=fmt(to);return;}const t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/700),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(f);})(t0);}
+function updateStats(){const n=productsCache.length,sum=productsCache.reduce((a,p)=>a+(Number(p.price)||0),0),c={};productsCache.forEach(p=>c[p.category]=(c[p.category]||0)+1);const top=Object.keys(c).sort((a,b)=>c[b]-c[a])[0];
+  tween($('#sP'),n,v=>Math.round(v));tween($('#sS'),3+customSections.length,v=>Math.round(v));tween($('#sA'),n?sum/n:0,formatMoney);$('#sT').textContent=top?categoryLabel(top):'–';$('#sT').style.fontSize='1.3rem';}
+const list=$('#manageProductList'),si=document.createElement('input');si.type='search';si.className='list-search';si.placeholder='Search products…';si.setAttribute('aria-label','Search products');list.before(si);
+function filterRows(){const q=si.value.trim().toLowerCase();list.querySelectorAll('.manage-row').forEach(r=>r.style.display=!q||r.textContent.toLowerCase().includes(q)?'':'none');}si.addEventListener('input',filterRows);
+const form=$('#productForm'),wrap=document.createElement('div');wrap.className='form-wrap';
+const pv=document.createElement('aside');pv.className='live-preview';pv.innerHTML='<small>Live preview · what customers see</small><div class="pv-art"><img alt="" hidden><span>🥐</span></div><div class="pv-cat"></div><h4></h4><p></p><b></b>';
+form.before(wrap);wrap.append(form,pv);
+let fileUrl='';
+function refresh(){const id=$('#editingProductName').value,ex=id&&productsCache.find(p=>p.id===id),img=pv.querySelector('img'),src=fileUrl||(ex&&ex.imageUrl)||'';
+  img.hidden=!src;if(src)img.src=src;pv.querySelector('span').hidden=!!src;const sel=$('#productCategory');
+  pv.querySelector('.pv-cat').textContent=sel.selectedOptions[0]?sel.selectedOptions[0].textContent:'';pv.querySelector('h4').textContent=$('#productName').value||'Product name';
+  pv.querySelector('p').textContent=$('#productDescription').value||'Your description appears here.';pv.querySelector('b').textContent=formatMoney($('#productPrice').value);}
+form.addEventListener('input',refresh);form.addEventListener('change',refresh);form.addEventListener('reset',()=>{fileUrl='';setTimeout(refresh)});list.addEventListener('click',()=>setTimeout(refresh));
+imageInput.addEventListener('change',()=>{const f=imageInput.files&&imageInput.files[0];if(!f){fileUrl='';refresh();return;}const r=new FileReader();r.onload=()=>{fileUrl=r.result;refresh();};r.readAsDataURL(f);});
+const dz=imageInput.closest('label');dz.classList.add('drop');imageInput.after(Object.assign(document.createElement('small'),{className:'hint',textContent:'Drop an image here or choose a file'}));
+['dragenter','dragover'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add('over');}));['dragleave','drop'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove('over');}));
+dz.addEventListener('drop',e=>{if(e.dataTransfer.files.length){imageInput.files=e.dataTransfer.files;imageInput.dispatchEvent(new Event('change',{bubbles:true}));}});
+addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();form.requestSubmit();}});$('#saveProduct').title='Ctrl + S';
+const _a=applyCatalogUpdate;applyCatalogUpdate=function(){_a();updateStats();refresh();};
+const _s=renderSections;renderSections=function(){_s();updateStats();refresh();};
+const _m=renderManageProducts;renderManageProducts=function(){_m();filterRows();};
+updateStats();refresh();
+})();
+</script>
+</body>
+</html>

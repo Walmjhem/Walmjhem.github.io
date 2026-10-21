@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0f14">
+<title>StayEasy | Airbnb-style Houses</title>
+<script>try{if(localStorage.getItem('theme')!=='"light"')document.documentElement.dataset.theme='dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+<style>
+:root{--bg:#dfe6ec;--panel:#eaf0f4;--panel2:#d3dce4;--text:#0f1b26;--muted:#56687a;--accent:#0e8f86;--acc2:#16b3a8;--on:#fff;--line:rgba(15,27,38,.15);--ease:cubic-bezier(.2,.8,.2,1)}
+[data-theme=dark]{color-scheme:dark;--bg:#0a0f14;--panel:#101821;--panel2:#16212c;--text:#e6eef5;--muted:#8fa3b3;--accent:#35d6c0;--acc2:#7ff0e0;--on:#04201c;--line:rgba(223,230,236,.14)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(rgba(130,190,220,.045) 1px,transparent 1px) 0 0/48px 48px,linear-gradient(90deg,rgba(130,190,220,.045) 1px,transparent 1px) 0 0/48px 48px;animation:grid 40s linear infinite}
+@keyframes grid{to{background-position:48px 48px,48px 48px}}
+a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--acc2);outline-offset:3px}::selection{background:var(--accent);color:var(--on)}
+.wrap{width:min(1180px,calc(100% - 44px));margin-inline:auto}
+#bar{position:fixed;inset:0 0 auto;height:3px;z-index:99;transform:scaleX(0);transform-origin:0;background:var(--accent)}
+.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav-in{height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:-.03em;font-size:1.1rem}.logo i{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--accent);color:var(--on);font-style:normal}
+.links{display:flex;gap:26px;font-size:.9rem;font-weight:650;color:var(--muted)}.links a{transition:color .2s}.links a:hover,.links a.on{color:var(--text)}
+.tools{display:flex;gap:8px;align-items:center}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 20px;border-radius:999px;border:1px solid var(--accent);background:var(--accent);color:var(--on);font-weight:800;font-size:.9rem;transition:translate .25s var(--ease),box-shadow .2s,transform .2s}
+.btn:hover{filter:brightness(1.08)}.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.ghost{background:transparent;color:var(--text);border-color:var(--line);box-shadow:none}.ghost:hover{border-color:var(--text);filter:none}
+.ic{min-width:42px;padding:0 12px}.badge-n{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:99px;background:var(--accent);color:var(--on);font-size:.72rem}
+.rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}@keyframes rip{to{transform:scale(1);opacity:0}}
+#menuBtn{display:none}
+.hero{padding:clamp(40px,7vw,90px) 0 40px}.hero-in{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,70px);align-items:center}
+.hero-in>div:first-child>*{animation:rise .8s var(--ease) backwards;animation-delay:calc(var(--k,0)*90ms)}@keyframes rise{from{opacity:0;transform:translateY(22px)}}
+h1{font-size:clamp(2.6rem,6vw,4.8rem);line-height:1;letter-spacing:-.05em;margin:18px 0;font-weight:800}
+.lead{max-width:520px;color:var(--muted);font-size:1.05rem}
+.search{display:grid;grid-template-columns:1.2fr 1fr 1fr .7fr auto;gap:8px;margin-top:28px;padding:10px;border:1px solid var(--line);border-radius:20px;background:color-mix(in srgb,var(--panel) 85%,transparent);backdrop-filter:blur(14px);box-shadow:0 20px 50px rgba(0,0,0,.18)}
+.search label{display:grid;gap:2px;padding:6px 10px;font-size:.7rem;color:var(--muted);font-weight:700;border-radius:12px;transition:background .2s}.search label:focus-within{background:var(--panel2)}
+.search input,.search select{width:100%;border:0;background:none;outline:0;font-size:.92rem;font-weight:650;color:var(--text);color-scheme:inherit}
+.art{--px:0;--py:0;position:relative;aspect-ratio:4/5;max-height:560px;width:100%;justify-self:center}
+.cap{position:absolute;left:14px;bottom:14px;z-index:2;padding:8px 12px;border-radius:10px;background:rgba(10,15,20,.72);color:#e6eef5;font-size:.82rem;font-weight:600;backdrop-filter:blur(8px)}
+.art img{position:relative;width:100%;height:100%;object-fit:cover;border-radius:28px;border:1px solid var(--line);translate:calc(var(--px)*1px) calc(var(--py)*1px);transition:translate .2s}
+section{padding:clamp(44px,7vw,84px) 0}
+h2{font-size:clamp(1.9rem,4vw,2.8rem);letter-spacing:-.04em;line-height:1.1;margin:8px 0 0}.kick{color:var(--muted);font-size:.84rem}
+.head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}.sub{color:var(--muted);margin:10px 0 0;max-width:560px}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:26px 0 8px}
+.chipf{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:99px;padding:8px 16px;font-size:.86rem;font-weight:700;transition:.2s}.chipf:hover{border-color:var(--text);color:var(--text)}.chipf.on{background:var(--text);border-color:var(--text);color:var(--bg)}
+.field{min-height:40px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);outline:0;transition:.2s}.field:focus{border-color:var(--text)}
+.range{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.84rem;font-weight:650}.range input{accent-color:var(--accent)}
+.count{color:var(--muted);font-size:.9rem;margin:6px 0 18px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.card,.amen{--rx:0deg;--ry:0deg;position:relative;background:var(--panel);border:1px solid var(--line);border-radius:22px;overflow:hidden;transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .25s var(--ease),border-color .3s,box-shadow .3s}
+.card{cursor:pointer;animation:rise .6s var(--ease) backwards;animation-delay:calc(var(--i,0)*60ms)}
+.card::after,.amen::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.06),transparent 70%)}
+.card:hover{border-color:var(--muted);box-shadow:0 18px 40px rgba(0,0,0,.22)}.card:hover::after{opacity:1}
+.card .art2{position:relative;height:230px;display:grid;place-items:center;font-size:5rem;background:var(--panel2);overflow:hidden}
+.card .art2 img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}.card:hover .art2 img{transform:scale(1.07)}
+.tag{position:absolute;left:14px;top:14px;z-index:1;padding:5px 12px;border-radius:99px;background:rgba(10,15,20,.7);color:#e6eef5;font-size:.76rem;font-weight:750;backdrop-filter:blur(8px)}
+.heart{position:absolute;right:12px;top:12px;z-index:2;width:38px;height:38px;border-radius:50%;border:0;background:rgba(10,15,20,.7);color:#e6eef5;font-size:1.05rem;backdrop-filter:blur(8px);transition:transform .2s,color .2s}.heart:hover{transform:scale(1.12)}.heart[aria-pressed=true]{color:#ff5d8f;animation:pop .4s var(--ease)}@keyframes pop{40%{transform:scale(1.4)}}
+.info{padding:18px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.info h3{margin:0;font-size:1.1rem;letter-spacing:-.02em}.loc{margin:4px 0 14px;color:var(--muted);font-size:.86rem}.rate{font-weight:750;font-size:.9rem}.price b{font-size:1.15rem}.go{font-weight:700;font-size:.86rem;text-decoration:underline;text-underline-offset:3px}.rate::first-letter{color:#f2b84b}
+.empty{text-align:center;padding:50px 20px;border:1px dashed var(--line);border-radius:22px;color:var(--muted)}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,64px);align-items:center}.about img{width:100%;border-radius:26px;border:1px solid var(--line);aspect-ratio:4/3;object-fit:cover}
+.amens{display:grid;grid-template-columns:repeat(3,1fr);gap:0 36px;margin-top:28px}.am{padding:18px 0;border-top:1px solid var(--line)}.am h3{margin:0 0 4px;font-size:1rem}.am p{margin:0;color:var(--muted);font-size:.92rem}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding:clamp(24px,4vw,46px);border:1px solid var(--line);border-radius:28px;background:var(--panel)}
+form{display:grid;gap:12px}form .field{padding:12px 14px;width:100%}textarea.field{min-height:110px;resize:vertical}
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted);font-size:.84rem}.foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.back{position:fixed;right:18px;bottom:18px;z-index:40;opacity:0;pointer-events:none;transition:.3s}.back.show{opacity:1;pointer-events:auto}
+.ov{position:fixed;inset:0;z-index:100;display:none;background:rgba(5,10,14,.65);backdrop-filter:blur(8px)}.ov.open{display:flex;animation:fade .25s}@keyframes fade{from{opacity:0}}
+.modal{margin:auto;position:relative;width:min(100% - 24px,860px);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:26px;box-shadow:0 30px 90px rgba(0,0,0,.5);animation:pop2 .45s var(--ease)}@keyframes pop2{from{opacity:0;transform:translateY(30px) scale(.95)}}
+.mgrid{display:grid;grid-template-columns:1fr 1fr}.mimg{position:relative;min-height:300px;display:grid;place-items:center;font-size:6rem;background:var(--panel2)}.mimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mbody{padding:26px;display:grid;gap:14px;align-content:start}.mbody h3{margin:0;font-size:1.6rem;letter-spacing:-.03em}.mbody p{margin:0;color:var(--muted)}
+.ams{display:flex;gap:6px;flex-wrap:wrap}.ams span{padding:5px 11px;border:1px solid var(--line);border-radius:99px;font-size:.78rem;font-weight:650;background:var(--panel2)}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dates label{display:grid;gap:4px;font-size:.74rem;color:var(--muted);font-weight:700}.dates input{color-scheme:inherit}
+.step{display:flex;align-items:center;justify-content:space-between;font-size:.9rem;font-weight:650}.step div{display:flex;align-items:center;gap:12px}.step button{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);font-weight:800}.step button:hover{background:var(--accent);color:var(--on);border-color:var(--accent)}
+.sum{display:grid;gap:6px;padding:14px;border-radius:14px;background:var(--panel2);font-size:.88rem}.sum div{display:flex;justify-content:space-between;color:var(--muted)}.sum .t{color:var(--text);font-size:1.1rem;font-weight:850;border-top:1px solid var(--line);padding-top:8px;margin-top:4px;font-variant-numeric:tabular-nums}
+.msg{font-size:.85rem;font-weight:650;min-height:20px}.msg.bad{color:#ff8b8b}.msg.ok{color:var(--accent)}.note{font-size:.76rem;color:var(--muted)}
+.x{position:absolute;right:14px;top:14px;z-index:3;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-size:1.2rem;transition:transform .3s}.x:hover{transform:rotate(90deg)}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:110;width:min(100%,400px);padding:22px;background:var(--panel);border-left:1px solid var(--line);transform:translateX(105%);transition:transform .4s var(--ease);overflow:auto}.drawer.open{transform:none}
+.trip{display:grid;gap:4px;padding:14px;margin-top:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}.trip small{color:var(--muted)}.trip button{justify-self:start;margin-top:6px;border:1px solid rgba(255,107,107,.4);color:#ff8b8b;background:none;border-radius:99px;padding:5px 12px;font-size:.78rem;font-weight:700}
+.toast{position:fixed;left:50%;bottom:22px;z-index:200;max-width:calc(100vw - 28px);padding:13px 20px;border-radius:14px;background:var(--text);color:var(--bg);box-shadow:0 14px 36px rgba(0,0,0,.35);opacity:0;pointer-events:none;transform:translate(-50%,24px);transition:.35s var(--ease);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease) var(--d,0ms),transform .7s var(--ease) var(--d,0ms)}.rv.in{opacity:1;transform:none}
+@media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.hero-in,.about,.contact,.mgrid{grid-template-columns:1fr}.art{max-height:380px;aspect-ratio:16/10}.chip.a{left:2%}.chip.b{right:2%}.search{grid-template-columns:1fr 1fr}.search .btn{grid-column:1/-1}.amens{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){#menuBtn{display:inline-flex}.links{position:absolute;top:72px;left:0;right:0;flex-direction:column;gap:0;background:var(--panel);border-bottom:1px solid var(--line);display:none}.links.open{display:flex}.links a{padding:14px 22px}}
+@media(max-width:560px){.grid,.amens{grid-template-columns:1fr}.search{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<header class="nav"><div class="wrap nav-in">
+  <a href="#home" class="logo"><i>⌂</i>StayEasy</a>
+  <nav class="links" id="links" aria-label="Main"><a href="#home">Home</a><a href="#houses">Houses</a><a href="#about">About</a><a href="#amenities">Amenities</a><a href="#contact">Contact</a></nav>
+  <div class="tools"><button class="btn ghost" id="tripsBtn">My trips <span class="badge-n" id="tripN">0</span></button><button class="btn ghost ic" id="theme" aria-label="Toggle theme">☀</button><button class="btn ghost ic" id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button></div>
+</div></header>
+
+<main id="home">
+<section class="hero"><div class="wrap hero-in">
+  <div>
+    <h1>Houses to rent in Negros Occidental</h1>
+    <p class="lead">Four places to stay, from a beach house in Talisay to a cabin in Vallehermoso. Add your dates to see which ones are free.</p>
+    <form class="search" id="search">
+      <label>Where<select id="sArea"><option value="">All areas</option></select></label>
+      <label>Check-in<input type="date" id="sIn"></label>
+      <label>Check-out<input type="date" id="sOut"></label>
+      <label>Guests<input type="number" id="sG" min="1" max="10" value="2"></label>
+      <button class="btn" type="submit">Check availability</button>
+    </form>
+    
+  </div>
+  <div class="art" id="heroArt"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=70" alt="Modern villa with pool" onerror="this.style.minHeight='320px'"><div class="cap">Modern Villa · Bacolod City</div></div>
+</div></section>
+
+<section id="houses"><div class="wrap">
+  <div class="head rv"><div><h2>Pick a house</h2><p class="sub">Filter by type or price, save the ones you like, then open a house to check your dates.</p></div></div>
+  <div class="filters" id="types"></div>
+  <div class="filters"><input class="field" id="q" type="search" placeholder="Search houses ( / )" aria-label="Search houses"><select class="field" id="sort" aria-label="Sort"><option value="rec">Recommended</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="top">Top rated</option></select><label class="range">Max <input type="range" id="max" min="2000" max="5000" step="100" value="5000"><output id="maxO">₱5,000</output></label><button class="chipf" id="favOnly" aria-pressed="false">♥ Saved</button><button class="chipf" id="reset">Reset</button></div>
+  <div class="count" id="count" role="status"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>No houses match these filters.<br><br><button class="btn" id="reset2">Clear filters</button></div>
+</div></section>
+
+<section id="about"><div class="wrap about">
+  <div class="rv"><h2>About StayEasy</h2><p class="sub">StayEasy is a small set of rental houses around Negros Occidental. Each listing shows its nightly rate up front, and the booking summary adds the cleaning and service fees before you send a request.</p></div>
+  <img class="rv" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=70" alt="House exterior" loading="lazy">
+</div></section>
+
+<section id="amenities"><div class="wrap">
+  <div class="rv"><h2>What's included</h2><p class="sub">Not every house has everything, so each listing shows its own list.</p></div>
+  <div class="amens rv">
+    <div class="am"><h3>WiFi</h3><p>Fiber connection in all four houses.</p></div>
+    <div class="am"><h3>Pool</h3><p>Modern Villa only.</p></div>
+    <div class="am"><h3>Parking</h3><p>Space for two cars inside the gate.</p></div>
+    <div class="am"><h3>Air-con</h3><p>Modern Villa, Beach House and Silay Heritage Home.</p></div>
+    <div class="am"><h3>Kitchen</h3><p>Beach House and Mountain Cabin. Stove, fridge and cookware.</p></div>
+    <div class="am"><h3>Self check-in</h3><p>Silay Heritage Home. The key box code is sent the day before.</p></div>
+  </div></div></section>
+
+<section id="contact"><div class="wrap contact">
+  <div class="rv"><h2>Questions before you book?</h2><p class="sub">Tell us the house and dates you have in mind and we'll reply with what's open.</p></div>
+  <form id="cf" novalidate><input class="field" id="cn" placeholder="Your name" aria-label="Your name"><input class="field" id="ce" type="email" placeholder="Email" aria-label="Email"><textarea class="field" id="cm" placeholder="Which house, and for what dates?" aria-label="Message"></textarea><button class="btn" type="submit">Send message</button></form>
+</div></section>
+</main>
+<footer><div class="wrap foot"><span>StayEasy · Sample project</span><span>Listings and prices are made up. No payments are taken.</span></div></footer>
+<button class="btn back" id="top" aria-label="Back to top">↑</button>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="mT"><div class="modal"><button class="x" id="mx" aria-label="Close">&times;</button><div id="mBody"></div></div></div>
+<aside class="drawer" id="drawer" aria-label="My trips"><button class="x" id="dx" aria-label="Close trips">&times;</button><h2 style="font-size:1.6rem">My trips</h2><p class="note">Saved in this browser only.</p><div id="trips"></div></aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(()=>{
+const $=(s,c=document)=>c.querySelector(s),$$=(s,c=document)=>[...c.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const peso=n=>'₱'+Math.round(n).toLocaleString('en-PH');
+const day=n=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)};
+const nights=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+const img=id=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=900&q=70`;
+const H=[
+ {id:'villa',name:'Modern Villa',area:'Bacolod City',type:'Villa',price:3500,cap:6,rating:4.9,img:'photo-1600585154340-be6161a56a0c',emoji:'🏡',desc:'Three bedrooms around a small pool, with a wide living room that opens to the garden. About ten minutes from the city center by car.',am:['WiFi','Pool','Parking','Air-con'],bk:[[3,6],[14,17]]},
+ {id:'beach',name:'Beach House',area:'Talisay',type:'Beach',price:4200,cap:8,rating:4.8,img:'photo-1505693416388-ac5ce068fe85',emoji:'🏖️',desc:'Four bedrooms a short walk from the shore, a big dining table and a covered terrace. Enough beds for the whole family.',am:['WiFi','Parking','Kitchen','Air-con'],bk:[[8,11],[20,24]]},
+ {id:'cabin',name:'Mountain Cabin',area:'Vallehermoso',type:'Cabin',price:2800,cap:4,rating:4.7,img:'photo-1556912173-3bb406ef7e77',emoji:'🏔️',desc:'Two bedrooms, a wood-paneled living area and a kitchen you can actually cook in. Nights are cool, so bring a jacket.',am:['WiFi','Kitchen','Parking'],bk:[[1,3],[10,13]]},
+ {id:'heritage',name:'Silay Heritage Home',area:'Silay',type:'Heritage',price:3100,cap:5,rating:4.8,img:'photo-1568605114967-8130f3a36994',emoji:'🏛️',desc:'An old-style house with high ceilings, capiz windows and a shaded front porch, within walking distance of the heritage district in Silay.',am:['WiFi','Air-con','Parking','Self check-in'],bk:[[5,8],[18,21]]}
+];
+H.forEach(h=>h.bk=h.bk.map(([a,b])=>[day(a),day(b)]));
+let favs=new Set(store.get('se-fav',[])),trips=store.get('se-trips',[]);
+const D={type:'All',q:'',max:5000,sort:'rec',fav:false,area:'',guests:1,in:'',out:''};let f={...D};
+const grid=$('#grid');
+$('#sArea').insertAdjacentHTML('beforeend',[...new Set(H.map(h=>h.area))].map(a=>`<option>${a}</option>`).join(''));
+$('#types').innerHTML=['All',...new Set(H.map(h=>h.type))].map(t=>`<button class="chipf${t==='All'?' on':''}" data-t="${t}">${t==='All'?'All stays':t}</button>`).join('');
+const clash=(h,a,b)=>h.bk.concat(trips.filter(t=>t.id===h.id).map(t=>[t.in,t.out])).some(([s,e])=>a<e&&b>s);
+const dated=()=>f.in&&f.out&&f.out>f.in;
+function list(){const q=f.q.trim().toLowerCase();const r=H.filter(h=>(f.type==='All'||h.type===f.type)&&(!f.area||h.area===f.area)&&h.price<=f.max&&h.cap>=f.guests&&(!f.fav||favs.has(h.id))&&(!q||(h.name+' '+h.area+' '+h.type+' '+h.am.join(' ')).toLowerCase().includes(q))&&(!dated()||!clash(h,f.in,f.out)));
+ if(f.sort==='low')r.sort((a,b)=>a.price-b.price);else if(f.sort==='high')r.sort((a,b)=>b.price-a.price);else if(f.sort==='top')r.sort((a,b)=>b.rating-a.rating);return r}
+const card=(h,i)=>`<article class="card" data-id="${h.id}" tabindex="0" style="--i:${i}" aria-label="View ${h.name}"><div class="art2"><span>${h.emoji}</span><img src="${img(h.img)}" alt="${h.name}" loading="lazy" onerror="this.remove()"><span class="tag">${h.type}</span><button class="heart" aria-label="Save ${h.name}" aria-pressed="${favs.has(h.id)}">♥</button></div><div class="info"><div class="row"><h3>${h.name}</h3><span class="rate">★ ${h.rating}</span></div><p class="loc">${h.area} · sleeps ${h.cap}</p><div class="row"><span class="price"><b>${peso(h.price)}</b> / night</span><span class="go">Check dates</span></div></div></article>`;
+function render(){const r=list();grid.innerHTML=r.map(card).join('');$('#count').textContent=r.length+(r.length===1?' stay':' stays')+(dated()?` open ${f.in} to ${f.out}`:'');$('#empty').hidden=!!r.length}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2800)}
+function tween(el,to,fmt){if(reduce){el.textContent=fmt(to);return}const t0=performance.now(),from=+el.dataset.v||0;el.dataset.v=to;(function s(t){const k=Math.min(1,(t-t0)/800),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(s)})(t0)}
+/* theme, progress, nav */
+const root=document.documentElement,tb=$('#theme');const paint=()=>tb.textContent=root.dataset.theme==='dark'?'☀':'☾';paint();
+tb.onclick=()=>{const d=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=d;store.set('theme',d);paint()};
+$('#menuBtn').onclick=e=>{const o=$('#links').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',o)};$$('#links a').forEach(a=>a.onclick=()=>$('#links').classList.remove('open'));
+const secs=$$('main section[id],#home'),links=$$('#links a');
+function onScroll(){const h=root;$('#bar').style.transform=`scaleX(${h.scrollTop/((h.scrollHeight-h.clientHeight)||1)})`;$('#top').classList.toggle('show',h.scrollTop>600);let cur='home';$$('main section[id]').forEach(s=>{if(s.getBoundingClientRect().top<140)cur=s.id});links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur))}
+addEventListener('scroll',onScroll,{passive:true});onScroll();$('#top').onclick=()=>scrollTo({top:0});
+/* filters */
+$('#types').onclick=e=>{const b=e.target.closest('[data-t]');if(!b)return;f.type=b.dataset.t;sync();render()};
+$('#q').oninput=e=>{f.q=e.target.value;render()};$('#sort').onchange=e=>{f.sort=e.target.value;render()};
+$('#max').oninput=e=>{f.max=+e.target.value;$('#maxO').textContent=peso(f.max);render()};
+$('#favOnly').onclick=()=>{f.fav=!f.fav;sync();render()};
+function sync(){$$('#types .chipf').forEach(b=>b.classList.toggle('on',b.dataset.t===f.type));$('#favOnly').classList.toggle('on',f.fav);$('#favOnly').setAttribute('aria-pressed',f.fav)}
+const clear=()=>{f={...D};$('#q').value='';$('#sort').value='rec';$('#max').value=5000;$('#maxO').textContent='₱5,000';$('#sArea').value='';$('#sIn').value='';$('#sOut').value='';$('#sG').value=2;sync();render()};
+$('#reset').onclick=clear;$('#reset2').onclick=clear;
+addEventListener('keydown',e=>{if(e.key==='/'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#q').focus()}if(e.key==='Escape'){closeM();closeD()}});
+/* hero search */
+$('#sIn').min=day(0);$('#sOut').min=day(1);$('#sIn').onchange=e=>{$('#sOut').min=e.target.value||day(1)};
+$('#search').onsubmit=e=>{e.preventDefault();const a=$('#sIn').value,b=$('#sOut').value;if((a||b)&&!(a&&b&&b>a)){toast('Choose a check-out date after check-in');return}
+ Object.assign(f,{area:$('#sArea').value,in:a,out:b,guests:Math.max(1,+$('#sG').value||1)});render();$('#houses').scrollIntoView({behavior:reduce?'auto':'smooth'});toast(list().length+(list().length===1?' house matches':' houses match'))};
+/* cards: favorite or open */
+grid.addEventListener('click',e=>{const c=e.target.closest('.card');if(!c)return;if(e.target.closest('.heart')){const id=c.dataset.id;favs.has(id)?favs.delete(id):favs.add(id);store.set('se-fav',[...favs]);const b=e.target.closest('.heart');b.setAttribute('aria-pressed',favs.has(id));if(f.fav)render();return}openM(c.dataset.id,c)});
+grid.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('card')){e.preventDefault();e.target.click()}});
+/* modal + booking calculator */
+let cur,last;const ov=$('#ov');
+function openM(id,from){cur=H.find(h=>h.id===id);last=from;const h=cur;
+ $('#mBody').innerHTML=`<div class="mgrid"><div class="mimg"><span>${h.emoji}</span><img src="${img(h.img)}" alt="${h.name}" onerror="this.remove()"></div><div class="mbody"><div><span class="kick">${h.type} · ${h.area}</span><h3 id="mT">${h.name}</h3></div><p>${h.desc}</p><div class="ams">${h.am.map(a=>`<span>${a}</span>`).join('')}</div><div class="dates"><label>Check-in<input class="field" type="date" id="bIn" min="${day(0)}"></label><label>Check-out<input class="field" type="date" id="bOut" min="${day(1)}"></label></div><div class="step"><span>Guests (max ${h.cap})</span><div><button type="button" id="gm" aria-label="Fewer guests">−</button><b id="bG">${Math.min(Math.max(f.guests,1),h.cap)}</b><button type="button" id="gp" aria-label="More guests">+</button></div></div><div class="sum"><div><span id="l1">${peso(h.price)} × 0 nights</span><span id="v1">₱0</span></div><div><span>Cleaning fee</span><span id="v2">₱0</span></div><div><span>Service fee (8%)</span><span id="v3">₱0</span></div><div class="t"><span>Total</span><span id="v4">₱0</span></div></div><div class="msg" id="bMsg" role="status"></div><button class="btn" id="bGo" disabled>Request booking</button><p class="note">Demo only: no payment is taken and no real booking is made.</p></div></div>`;
+ if(dated()){$('#bIn').value=f.in;$('#bOut').value=f.out}
+ ['#bIn','#bOut'].forEach(s=>$(s).onchange=()=>{const a=$('#bIn').value;if(a)$('#bOut').min=day(0)>a?day(1):new Date(new Date(a).getTime()+864e5).toISOString().slice(0,10);calc()});
+ $('#gm').onclick=()=>step(-1);$('#gp').onclick=()=>step(1);$('#bGo').onclick=book;calc(true);ov.classList.add('open');document.body.style.overflow='hidden';$('#mx').focus()}
+function step(d){const g=$('#bG');g.textContent=Math.min(cur.cap,Math.max(1,+g.textContent+d));calc()}
+function calc(first){const a=$('#bIn').value,b=$('#bOut').value,n=a&&b?nights(a,b):0,m=$('#bMsg'),h=cur;let ok=false;
+ if(!a||!b){m.className='msg';m.textContent='Pick your check-in and check-out dates.'}else if(n<1){m.className='msg bad';m.textContent='Check-out must be after check-in.'}else if(clash(h,a,b)){m.className='msg bad';m.textContent='Those dates are taken. Try another range.'}else{m.className='msg ok';m.textContent=`Available for ${n} night${n>1?'s':''}.`;ok=true}
+ const sub=ok?h.price*n:0,fee=ok?500:0,svc=sub*.08;$('#l1').textContent=`${peso(h.price)} × ${ok?n:0} nights`;$('#v1').textContent=peso(sub);$('#v2').textContent=peso(fee);$('#v3').textContent=peso(svc);tween($('#v4'),sub+fee+svc,peso);$('#bGo').disabled=!ok}
+function book(){const a=$('#bIn').value,b=$('#bOut').value,n=nights(a,b),sub=cur.price*n,t={code:'SE-'+Math.random().toString(36).slice(2,6).toUpperCase(),id:cur.id,name:cur.name,in:a,out:b,g:+$('#bG').textContent,total:sub*1.08+500};
+ trips.unshift(t);store.set('se-trips',trips);paintTrips();closeM();render();toast(`Request saved. Your code is ${t.code}.`)}
+function closeM(){if(!ov.classList.contains('open'))return;ov.classList.remove('open');document.body.style.overflow='';last&&last.focus&&last.focus()}
+$('#mx').onclick=closeM;ov.onclick=e=>{if(e.target===ov)closeM()};
+/* trips drawer */
+const dr=$('#drawer');
+function paintTrips(){$('#tripN').textContent=trips.length;$('#trips').innerHTML=trips.length?trips.map((t,i)=>`<div class="trip"><b>${t.name}</b><small>${t.in} → ${t.out} · ${t.g} guest${t.g>1?'s':''}</small><span>${peso(t.total)} · ${t.code}</span><button data-i="${i}">Cancel request</button></div>`).join(''):'<p class="sub">Nothing here yet. Requests you send will show up here.</p>'}
+$('#tripsBtn').onclick=()=>{dr.classList.add('open');$('#dx').focus()};function closeD(){dr.classList.remove('open')}$('#dx').onclick=closeD;
+$('#trips').onclick=e=>{const b=e.target.closest('[data-i]');if(!b)return;trips.splice(+b.dataset.i,1);store.set('se-trips',trips);paintTrips();render();toast('Request cancelled')};
+/* contact */
+$('#cf').onsubmit=e=>{e.preventDefault();const n=$('#cn').value.trim(),m=$('#ce').value.trim(),t=$('#cm').value.trim();if(!n||!/^\S+@\S+\.\S+$/.test(m)||!t){toast('Add your name, a valid email and a message');return}e.target.reset();toast(`Thanks, ${n}. This is a demo form, so nothing was sent.`)};
+/* fx: tilt + spotlight, magnetic, ripple, hero parallax, reveal, counters */
+if(fine&&!reduce){document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.card,.amen');if(c){const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;c.style.setProperty('--mx',x*100+'%');c.style.setProperty('--my',y*100+'%');c.style.setProperty('--rx',(.5-y)*7+'deg');c.style.setProperty('--ry',(x-.5)*9+'deg')}
+ const b=e.target.closest&&e.target.closest('.btn:not(.ghost):not(.back)');if(b){const r=b.getBoundingClientRect();b.style.translate=`${(e.clientX-r.left-r.width/2)*.15}px ${(e.clientY-r.top-r.height/2)*.25}px`}});
+ document.addEventListener('pointerout',e=>{const c=e.target.closest&&e.target.closest('.card,.amen');if(c&&!c.contains(e.relatedTarget)){c.style.removeProperty('--rx');c.style.removeProperty('--ry')}const b=e.target.closest&&e.target.closest('.btn');if(b)b.style.translate=''});
+ const art=$('#heroArt');$('.hero').addEventListener('pointermove',e=>{const r=art.getBoundingClientRect();art.style.setProperty('--px',(e.clientX-r.left-r.width/2)/-30);art.style.setProperty('--py',(e.clientY-r.top-r.height/2)/-30)})}
+document.addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.closest('.btn');if(!b||reduce)return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height)*2,d=document.createElement('span');d.className='rip';d.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.append(d);setTimeout(()=>d.remove(),650)});
+$$('.hero-in>div:first-child>*').forEach((el,i)=>el.style.setProperty('--k',i));
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.15});$$('.rv').forEach((el,i)=>{el.style.setProperty('--d',(i%3)*90+'ms');io.observe(el)});
+render();paintTrips();
+})();
+</script>
+</body>
+</html>

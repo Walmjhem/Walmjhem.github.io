@@ -1,0 +1,43 @@
+/* Crumb & Co.: motion layer (loaded after shop.css / admin.css, before effects.js). */
+:root{--mo-ease:cubic-bezier(.22,1,.36,1)}
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.3s}
+html{scroll-padding-top:84px}                      /* sticky top bar no longer covers anchored sections */
+
+@media (prefers-reduced-motion:no-preference){
+  @keyframes mo-down{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+  @keyframes mo-in{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+  @keyframes mo-sheen{to{transform:translateX(260%) skewX(-18deg)}}
+  @keyframes mo-wiggle{25%{transform:rotate(-10deg) scale(1.12)}60%{transform:rotate(8deg) scale(1.12)}}
+  @keyframes mo-crumb{0%{opacity:0;transform:translate3d(0,0,0) rotate(0)}15%{opacity:.8}
+    100%{opacity:0;transform:translate3d(var(--dx),var(--dy),0) rotate(var(--rot))}}
+  @keyframes mo-tick{40%{transform:scale(1.18);color:var(--ube)}}
+
+  .topbar{animation:mo-down .6s var(--mo-ease) backwards;transition:box-shadow .3s,background .3s}
+  .topbar.is-stuck{box-shadow:0 14px 34px -22px rgba(16,42,34,.55)}
+  #mo-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:1200;pointer-events:none;transform-origin:0 50%;
+    transform:scaleX(0);background:linear-gradient(90deg,var(--ube2,var(--ube)),var(--sun))}
+
+  /* crumbs drifting up from the hero pastry */
+  .hero{position:relative}
+  .mo-crumb{position:absolute;z-index:0;width:var(--s);height:var(--s);border-radius:40% 60% 55% 45%;pointer-events:none;
+    background:var(--sun);opacity:0;animation:mo-crumb var(--t) ease-out var(--w) infinite}
+
+  /* product art: light sheen on hover, quick press on buttons */
+  .product-art::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(0) skewX(-18deg)}
+  .product-card:hover .product-art::after{animation:mo-sheen .9s var(--mo-ease)}
+  .add-btn:active,.filter:active,.primary:active,.secondary:active,.mini-button:active{scale:.95}
+  .filter{transition:translate .25s var(--mo-ease),scale .15s,background .25s,color .25s,border-color .25s}
+  .promise-item:hover .promise-icon{animation:mo-wiggle .6s var(--mo-ease)}
+  .nav a{position:relative}
+  .nav a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;border-radius:2px;background:var(--ube);
+    transform:scaleX(0);transform-origin:left;transition:transform .35s var(--mo-ease)}
+  .nav a:hover::after{transform:scaleX(1)}
+
+  /* basket */
+  .basket-line{animation:mo-in .4s var(--mo-ease) backwards}
+  .basket-line:nth-child(2){animation-delay:60ms}.basket-line:nth-child(3){animation-delay:120ms}
+  .basket-line:nth-child(n+4){animation-delay:180ms}
+  .mo-tick{animation:mo-tick .45s var(--mo-ease)}
+}

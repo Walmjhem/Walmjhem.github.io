@@ -1,0 +1,47 @@
+/* StockPilot: motion layer (loaded after shop.css / admin.css). All of it is off under prefers-reduced-motion. */
+:root{--mo-ease:cubic-bezier(.22,1,.36,1)}
+@view-transition{navigation:auto}               /* crossfade between shop and admin (Chromium) */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.28s}
+
+@media (prefers-reduced-motion:no-preference){
+  @keyframes mo-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes mo-tick{40%{transform:translateY(-3px);color:var(--accent);text-shadow:0 0 14px var(--accent)}}
+  @keyframes mo-row{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+
+  /* The original `rise ... both` froze transform:none, so the hover lift never ran. */
+  .card{animation-fill-mode:backwards;
+    transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    transition:transform .2s ease-out,border-color .3s,box-shadow .4s}
+  .card:hover{transform:perspective(900px) translateY(-6px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+  .card:active{transform:perspective(900px) translateY(-2px) scale(.985)}
+
+  /* page entrance */
+  .hero>*,.admin__head,.stats{animation:mo-up .75s var(--mo-ease) backwards}
+  .stat{animation:mo-up .6s var(--mo-ease) backwards;animation-delay:.12s}
+  .hero>:nth-child(2){animation-delay:.08s}.hero>:nth-child(3){animation-delay:.16s}
+  .hero>:nth-child(4){animation-delay:.24s}.stat:nth-child(2){animation-delay:.2s}
+  .stat:nth-child(3){animation-delay:.28s}.stat:nth-child(4){animation-delay:.36s}
+  .stat{transition:transform .3s var(--mo-ease),border-color .3s,box-shadow .3s}
+  .stat:hover{transform:translateY(-3px);box-shadow:0 14px 34px -18px rgba(29,233,255,.45)}
+
+  /* scroll-driven bits */
+  #mo-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;pointer-events:none;
+    transform-origin:0 50%;transform:scaleX(0);background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  .header{transition:box-shadow .3s,background .3s}
+  .header.is-stuck{box-shadow:0 12px 30px -20px #000}
+  .mo-rv{opacity:0;transform:translateY(24px);transition:opacity .7s var(--mo-ease),transform .7s var(--mo-ease)}
+  .mo-rv.mo-in{opacity:1;transform:none}
+
+  /* small touches */
+  .btn:active,.chip:active,.qty button:active{transform:scale(.95)}
+  .nav__link::before{transform:translateX(-6px);transition:opacity .25s,transform .25s var(--mo-ease)}
+  .nav__link:hover::before{transform:none}
+  .chip{transition:transform .2s var(--mo-ease),background .25s,border-color .25s,color .25s}
+  .chip:hover{transform:translateY(-2px)}
+  tbody tr{animation:mo-row .4s var(--mo-ease) backwards}
+  tbody tr:nth-child(2){animation-delay:40ms}tbody tr:nth-child(3){animation-delay:80ms}
+  tbody tr:nth-child(4){animation-delay:120ms}tbody tr:nth-child(5){animation-delay:160ms}
+  tbody tr:nth-child(6){animation-delay:200ms}tbody tr:nth-child(n+7){animation-delay:240ms}
+  .mo-tick{animation:mo-tick .5s var(--mo-ease)}
+  .toast{transition:transform .45s var(--mo-ease),opacity .3s}
+}

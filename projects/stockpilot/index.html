@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockPilot | Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+
+  <header class="header">
+    <nav class="nav container">
+      <a href="#" class="nav__logo">StockPilot</a>
+      <ul class="nav__list">
+        <li><a href="#" class="nav__link">Home</a></li>
+        <li><a href="#inventory" class="nav__link">Inventory</a></li>
+        <li><a href="#inventory" class="nav__link">Branches</a></li>
+        <li><a href="#footer" class="nav__link">Contact</a></li>
+        <li><a href="admin.html" class="btn btn--primary btn--sm">Admin Panel</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero container">
+    <span class="hero__eyebrow">Live stock across all branches</span>
+    <h1>Know what is <span>in stock</span> at every branch</h1>
+    <p>Laptops, phones and accessories. Check what each branch has on the shelf right now.</p>
+    <div class="stats">
+      <div class="stat"><b id="statProducts">0</b><small>Products</small></div>
+      <div class="stat"><b id="statUnits">0</b><small>Units in stock</small></div>
+      <div class="stat"><b>3</b><small>Branches</small></div>
+    </div>
+  </section>
+
+  <section id="inventory" class="container" style="margin-top:2rem">
+    <div class="panel">
+
+      <div class="toolbar">
+        <div class="toolbar__row">
+          <input id="search" class="field field--search" type="search" placeholder="Search products, color, processor…">
+          <select id="branch" class="field" aria-label="Branch">
+            <option value="all">All Branches</option>
+          </select>
+          <select id="sort" class="field" aria-label="Sort">
+            <option value="new">Newest</option>
+            <option value="low">Price: Low to High</option>
+            <option value="high">Price: High to Low</option>
+            <option value="stock">Most Stock</option>
+          </select>
+        </div>
+        <div class="chips" id="chips"></div>
+      </div>
+
+      <div class="products" id="products">
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <dialog id="modal">
+    <button class="close" id="closeModal" aria-label="Close">&times;</button>
+    <div class="detail">
+      <div class="gallery">
+        <div class="gallery__stage" id="stage"></div>
+        <div class="gallery__thumbs" id="thumbs"></div>
+      </div>
+      <div class="detail__info">
+        <span class="card__cat" id="mCat"></span>
+        <h2 id="mName"></h2>
+        <div class="detail__price" id="mPrice"></div>
+        <div class="specs" id="mSpecs"></div>
+        <p class="desc" id="mDesc"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="footer" id="footer">
+    <h3>StockPilot</h3>
+    <p>Live stock across every branch</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/motion.js"></script>
+</body>
+</html>

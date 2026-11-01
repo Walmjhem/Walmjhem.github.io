@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counter POS</title>
+<meta name="description" content="A point-of-sale demo: products, sales, stock and reports, built with vanilla JavaScript. Try it, no sign-in needed.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+<div class="shell">
+  <nav class="rail" role="tablist" aria-label="Sections">
+    <div class="logo" aria-hidden="true">C</div>
+    <button class="rn" role="tab" data-view="sell" aria-selected="true"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h10.2L20 7H6.2"/><circle cx="9" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg>Sell</button>
+    <button class="rn" role="tab" data-view="sales" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Sales</button>
+    <button class="rn" role="tab" data-view="stock" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>Stock</button>
+    <button class="rn" role="tab" data-view="report" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Reports</button>
+    <div class="sp"></div>
+    <button class="rn" id="soundBtn" aria-pressed="false" title="Sound on or off"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9z"/><path id="sw" d="M16 9a4 4 0 0 1 0 6"/></svg>Sound</button>
+  </nav>
+
+  <div class="main">
+    <header class="top">
+      <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="search" type="search" placeholder="Search items or scan a SKU" aria-label="Search products or scan SKU"><kbd>F2</kbd></div>
+      <div class="chip"><small>Today</small><b id="todayTot">&#8369;0.00</b></div>
+      <div class="chip"><small>Mode</small><b id="net" data-s="Demo">Demo</b></div>
+      <button class="ghost" id="palBtn">Commands <kbd>Ctrl K</kbd></button>
+      <button class="ghost" id="cashier"></button>
+    </header>
+
+    <div class="views">
+      <section class="view on" id="sell">
+        <div class="catalog"><div class="cats" id="cats"></div><div class="grid" id="grid"></div></div>
+        <aside class="cart" id="cart" aria-label="Current order">
+          <div class="ch"><h2 class="l">Current order</h2><span class="hint">Drag items here &middot; <kbd>F4</kbd> charge</span></div>
+          <div class="lines" id="lines"></div>
+          <div class="sum">
+            <div class="disc"><select id="discType" aria-label="Discount type"><option value="pct">% off</option><option value="amt">Amount off</option></select><input id="discVal" type="number" min="0" step="any" placeholder="Discount" aria-label="Discount value"></div>
+            <div class="r"><span>Subtotal</span><b id="sSub"></b></div>
+            <div class="r"><span>Discount</span><b id="sDisc"></b></div>
+            <div class="r"><span>VAT included (12%)</span><b id="sVat"></b></div>
+            <div class="r tot"><span>Total</span><b id="sTot"></b></div>
+            <div class="act"><button class="ghost" id="hold">Hold order</button><button class="ghost danger" id="clear">Clear</button><button class="go" id="pay">Charge</button></div>
+            <div class="hint" id="heldInfo"></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="view" id="sales"><div class="pn">
+        <div class="row"><h2 class="l">Sales history</h2><input type="search" id="salesSearch" placeholder="Search receipt, cashier, method"><button class="ghost" id="exportCsv">Export CSV</button></div>
+        <div class="box"><table><thead><tr><th>Receipt</th><th>Time</th><th>Cashier</th><th>Method</th><th class="r">Items</th><th class="r">Total</th></tr></thead><tbody id="salesBody"></tbody></table></div>
+      </div></section>
+
+      <section class="view" id="stock"><div class="pn">
+        <div class="row"><h2 class="l">Inventory</h2><input type="search" id="stockSearch" placeholder="Search products"><button class="go own" id="addProd" style="padding:9px 18px">Add product</button></div>
+        <div class="box"><table><thead><tr><th>Item</th><th>SKU</th><th class="r">Price</th><th class="r">Stock</th><th>Status</th><th class="own">Photo</th><th class="r own">Restock</th></tr></thead><tbody id="stockBody"></tbody></table></div>
+        <p class="hint" style="margin-top:12px">Photos you add are saved in your browser only (demo). Files named after the SKU (for example <b>BEV-001.jpg</b>) in an <b>images</b> folder still work as a fallback.</p>
+      </div></section>
+
+      <section class="view" id="report"><div class="pn">
+        <div class="row"><h2 class="l">Reports</h2>
+          <div class="seg" id="range" role="group" aria-label="Range"><button data-r="today" aria-pressed="true">Today</button><button data-r="7" aria-pressed="false">7 days</button><button data-r="all" aria-pressed="false" title="Latest 1,000 sales">All</button></div>
+          <button class="ghost own" id="resetDemo">Reset demo</button></div>
+        <div class="kp" id="kpis"></div>
+        <div class="two">
+          <div class="box"><h2 class="l" style="margin-bottom:8px">Revenue by day</h2><svg class="chart" id="dayChart" viewBox="0 0 520 190" width="100%" role="img" aria-label="Revenue by day"></svg><div class="tip" id="dayTip"></div></div>
+          <div class="box"><h2 class="l" style="margin-bottom:10px">Payment mix</h2><div class="donut"><svg viewBox="0 0 120 120" id="donut" role="img" aria-label="Payment mix"></svg><div id="mix"></div></div></div>
+          <div class="box" style="grid-column:1/-1"><h2 class="l" style="margin-bottom:6px">Top products</h2><div id="top"></div></div>
+        </div>
+      </div></section>
+    </div>
+  </div>
+</div>
+<button class="cartbar" id="cartBar" aria-label="Go to order"><span id="cbN">0 items</span><span id="cbT"></span></button>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="bg" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ff4d8d"/></linearGradient>
+  <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#ff4d8d"/></linearGradient>
+</defs></svg>
+
+<dialog id="payDlg"><form class="dlg" id="payForm" method="dialog">
+  <h3>Take payment</h3>
+  <div class="due" id="payTotal"></div>
+  <div class="methods" id="methods"><span class="thumb" id="mThumb"></span><button type="button" data-m="Cash" aria-pressed="true">Cash</button><button type="button" data-m="GCash" aria-pressed="false">GCash</button><button type="button" data-m="Card" aria-pressed="false">Card</button></div>
+  <div id="cashBox" style="display:grid;gap:10px">
+    <div class="disp"><small>Cash received</small><b id="tenderDisp">0</b></div>
+    <div class="quick" id="quick"></div>
+    <div class="pad" id="pad"></div>
+    <div class="chg"><span class="hint">Change</span><b id="chg"></b></div>
+  </div>
+  <p class="hint" id="nonCash" hidden>Confirm once the customer's payment goes through.</p>
+  <div class="foot"><button class="ghost" type="button" id="payCancel">Cancel</button><button class="go" type="submit" id="payOk" disabled>Complete sale</button></div>
+</form></dialog>
+
+<dialog id="rcpDlg"><div class="dlg">
+  <div class="done"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21"/><path d="M14 25l7 7 13-15"/></svg><div><h3>Sale complete</h3><span class="hint" id="rcpSub"></span></div></div>
+  <div id="receipt"></div>
+  <div class="foot"><button class="ghost" id="rcpPrint">Print</button><button class="go" id="rcpClose">New sale</button></div>
+</div></dialog>
+
+<dialog id="heldDlg"><div class="dlg"><h3>Held orders</h3><div id="heldList"></div><div class="foot"><button class="ghost" id="heldClose">Close</button></div></div></dialog>
+
+<dialog id="prodDlg"><form class="dlg" id="prodForm" method="dialog">
+  <h3>Add product</h3>
+  <div><label for="pName">Name</label><input id="pName" required maxlength="40"></div>
+  <div class="two-c"><div><label for="pSku">SKU</label><input id="pSku" required maxlength="20"></div><div><label for="pCat">Category</label><input id="pCat" required maxlength="20" list="catList"><datalist id="catList"></datalist></div></div>
+  <div class="two-c"><div><label for="pPrice">Price</label><input id="pPrice" type="number" min="0" step="any" required></div><div><label for="pCost">Cost</label><input id="pCost" type="number" min="0" step="any" required></div></div>
+  <div class="two-c"><div><label for="pStock">Opening stock</label><input id="pStock" type="number" min="0" step="1" value="10" required></div><div><label for="pFile">Photo or video (optional)</label><input id="pFile" type="file" accept="image/*,video/*"></div></div>
+  <div><label for="pUrl">or image link (optional)</label><input id="pUrl" type="url" placeholder="https://..."></div>
+  <div class="foot"><button class="ghost" type="button" id="prodCancel">Cancel</button><button class="go" type="submit">Save product</button></div>
+</form></dialog>
+
+<dialog id="cashDlg"><form class="dlg" id="cashForm" method="dialog"><h3>Cashier name</h3><div><label for="cashName">Name</label><input id="cashName" maxlength="24" required></div><div class="foot"><button class="go" type="submit">Save</button></div></form></dialog>
+
+<dialog id="pal"><input class="pi" id="palIn" placeholder="Type a command or item name" aria-label="Command palette" autocomplete="off"><ul class="pl" id="palList" role="listbox"></ul></dialog>
+
+<canvas id="conf"></canvas>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/app.js"></script>
+<script src="js/motion.js"></script>
+</body>
+</html>

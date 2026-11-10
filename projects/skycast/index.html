@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" data-project="skycast">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skycast Weather and Currency</title>
+<meta name="description" content="Live weather forecast and currency converter built with vanilla JavaScript and free public APIs.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="../../assets/css/project-shell.css">
+<script src="../../assets/js/project-shell.js" defer></script>
+</head>
+<body data-sky="clear-day">
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><i></i>Skycast</div>
+    <form class="search" id="searchForm" role="search" autocomplete="off">
+      <label class="sr" for="q">Search for a city</label>
+      <input id="q" type="search" placeholder="Search a city, e.g. Bacolod" aria-autocomplete="list" aria-controls="suggest" aria-expanded="false">
+      <button class="icon-btn" type="button" id="locate" aria-label="Use my location" title="Use my location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></svg>
+      </button>
+      <div class="suggest" id="suggest" role="listbox" hidden></div>
+    </form>
+    <div class="seg" role="group" aria-label="Temperature unit">
+      <button type="button" data-unit="c" aria-pressed="true">&deg;C</button>
+      <button type="button" data-unit="f" aria-pressed="false">&deg;F</button>
+    </div>
+  </header>
+
+  <div class="chips" id="chips" aria-label="Saved cities"></div>
+  <div id="errBox"></div>
+
+  <main class="grid">
+    <section class="card" id="nowCard" aria-live="polite"><div class="skel" style="height:130px"></div><div class="skel" style="height:58px"></div></section>
+    <section class="card" id="hourCard"><h2>Next 24 hours</h2><div id="hourBody"><div class="skel" style="height:150px"></div></div></section>
+    <section class="card" id="dayCard"><h2>7-day forecast</h2><div class="days" id="days"><div class="skel" style="height:34px;margin:6px 0"></div><div class="skel" style="height:34px;margin:6px 0"></div><div class="skel" style="height:34px;margin:6px 0"></div><div class="skel" style="height:34px;margin:6px 0"></div><div class="skel" style="height:34px;margin:6px 0"></div></div></section>
+    <section class="card" id="curCard">
+      <h2>Currency converter</h2>
+      <div class="cur-row">
+        <div class="field"><label for="from">From</label><select id="from"></select></div>
+        <button class="icon-btn swap" id="swapCur" type="button" aria-label="Swap currencies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 8l4 4M3 8h14M17 20l4-4-4-4M21 16H7"/></svg></button>
+        <div class="field"><label for="to">To</label><select id="to"></select></div>
+      </div>
+      <div class="field" style="margin-top:10px"><label for="amt">Amount</label><input id="amt" inputmode="decimal" value="100"></div>
+      <div class="result" id="curResult" aria-live="polite"><div class="skel" style="height:2rem;width:60%"></div></div>
+      <svg class="spark" id="spark" viewBox="0 0 300 54" width="100%" height="54" role="img" aria-label="30 day exchange rate trend"></svg>
+    </section>
+  </main>
+  <p class="note">Weather data by Open-Meteo. Exchange rates by Frankfurter (European Central Bank). Built with vanilla JavaScript.</p>
+</div>
+
+<script src="js/app.js"></script>
+<script src="js/motion.js"></script>
+</body>
+</html>

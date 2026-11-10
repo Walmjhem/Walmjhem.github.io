@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" data-project="crumb-and-co">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Crumb & Co. Bakery | Parisian Patisserie</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="../../assets/css/project-shell.css">
+<script src="../../assets/js/project-shell.js" defer></script>
+</head>
+<body>
+<div class="site">
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Crumb and Co. home"><span class="brand-mark">🥐</span><span>crumb & co.</span></a>
+    <nav class="nav" aria-label="Main navigation"><a href="#menu">Our bakes</a><a href="#story">Our promise</a><a href="#visit">Visit us</a></nav>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><a class="switch-page-button" href="owner-admin.html" title="Open the owner admin demo">Owner admin ↗</a><button class="cart-button" id="cartButton" aria-label="View basket">Basket <span class="cart-count" id="cartCount">0</span></button></div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div>
+        <div class="eyebrow">Small batches. Big comfort.</div>
+        <h1>A little joy,<br>fresh from the <em>oven.</em></h1>
+        <p class="hero-copy">Your everyday bakery for buttery pastries, soft breads, and sweet little moments. Baked with care, made to be shared, or kept all to yourself.</p>
+        <div class="hero-actions"><a class="primary" href="#menu" style="text-decoration:none">Explore the menu <span aria-hidden="true">↗</span></a><a class="secondary" href="#story" style="text-decoration:none">Why we bake</a></div>
+        <div class="hero-note"><span aria-hidden="true">✦</span><span><strong>Made fresh daily</strong> · Simple ingredients, lovely bakes</span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration of a freshly baked croissant">
+        <div class="hero-circle"></div><div class="hero-pastry" aria-hidden="true">🥐</div><div class="sticker">BAKED<br>WITH<br>LOVE ♡</div><div class="float-tag"><strong>Fresh out of the oven</strong><span>Warm, flaky, delicious.</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="menu">
+      <div class="section-head"><div><div class="eyebrow">The good stuff</div><h2>Fresh picks for you</h2><p class="section-sub">Find a new favourite, or stick with a classic.</p></div></div>
+      <div class="filters" role="group" aria-label="Filter products">
+        <button class="filter active" data-filter="all">All treats</button><button class="filter" data-filter="bread">Breads</button><button class="filter" data-filter="pastry">Pastries</button><button class="filter" data-filter="cake">Cakes & sweets</button>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+      <div class="empty" id="emptyMessage" role="status" style="display:block">Loading fresh bakes…</div>
+    </section>
+
+    <section class="promise" id="story"><div class="promise-inner"><div class="promise-item"><span class="promise-icon" aria-hidden="true">🌾</span><div><strong>Thoughtful ingredients</strong><span>Simple ingredients, carefully chosen.</span></div></div><div class="promise-item"><span class="promise-icon" aria-hidden="true">🧑‍🍳</span><div><strong>Baked in small batches</strong><span>Care in every fold, crumb, and swirl.</span></div></div><div class="promise-item"><span class="promise-icon" aria-hidden="true">♡</span><div><strong>Made for sharing</strong><span>A little something for every kind of day.</span></div></div></div></section>
+
+    <section class="visit" id="visit"><div><div class="eyebrow">Come say hello</div><h2>Your next favourite is waiting.</h2><p>Drop by for your daily pastry, pick up a treat for someone you love, or make an ordinary day feel a little more special.</p></div><a class="primary" href="#menu" style="text-decoration:none; white-space:nowrap">Browse the bakes ↗</a></section>
+  </main>
+  <footer><div class="footer-inner"><span class="brand" style="font-size:.98rem"><span class="brand-mark" style="width:32px;height:32px;font-size:17px">🥐</span><span>crumb & co.</span></span><span>Sample landing page · Product names and prices are placeholders</span><span>Freshly baked, always with care.</span></div></footer>
+</div>
+
+<div class="modal-backdrop" id="productModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+  <div class="modal-panel">
+    <button class="modal-close" type="button" data-close-modal="productModal" aria-label="Close product details">&times;</button>
+    <img class="detail-image" id="detailImage" alt="">
+    <div class="detail-image detail-emoji" id="detailEmoji" aria-hidden="true"></div>
+    <div class="product-category" id="detailCategory" style="margin-top:16px"></div>
+    <h2 class="detail-title" id="detailTitle"></h2>
+    <div class="price" id="detailPrice" style="font-size:1.3rem"></div>
+    <p class="detail-description" id="detailDescription"></p>
+    <div class="detail-actions">
+      <button class="secondary" type="button" data-close-modal="productModal">Keep browsing</button>
+      <button class="primary" type="button" id="detailAdd">Add to basket</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="basketModal" role="dialog" aria-modal="true" aria-labelledby="basketTitle">
+  <div class="modal-panel">
+    <button class="modal-close" type="button" data-close-modal="basketModal" aria-label="Close basket">&times;</button>
+    <div class="eyebrow">Your order</div>
+    <h2 class="detail-title" id="basketTitle" style="margin-top:8px">Your basket</h2>
+    <div class="section-sub" id="basketSummary" style="margin:0"></div>
+    <div class="basket-lines" id="basketLines"></div>
+    <div class="basket-total"><span>Total</span><span id="basketTotal">₱0</span></div>
+    <div class="detail-actions" style="margin-top:20px">
+      <button class="secondary" type="button" id="clearBasket">Clear basket</button>
+      <button class="primary" type="button" id="checkoutBtn">Checkout</button>
+    </div>
+    <p class="modal-note">Portfolio demo: checkout is intentionally not connected, so no order is placed.</p>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+<script src="js/app.js"></script>
+<script src="js/motion.js"></script>
+<script src="js/effects.js"></script>
+</body>
+</html>

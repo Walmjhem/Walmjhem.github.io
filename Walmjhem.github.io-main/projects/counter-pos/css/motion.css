@@ -1,0 +1,37 @@
+
+:root{--mo-ease:cubic-bezier(.22,1,.36,1)}
+@media (prefers-reduced-motion:no-preference){
+  @keyframes mo-left{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+  @keyframes mo-right{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+  @keyframes mo-down{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+  @keyframes mo-fade{from{opacity:0}}
+  @keyframes mo-tick{45%{transform:scale(1.09)}}
+  @keyframes mo-flash{0%{opacity:.9}100%{opacity:0}}
+
+  
+  .rail{animation:mo-left .6s var(--mo-ease) backwards}
+  .top{animation:mo-down .6s var(--mo-ease) .08s backwards}
+  .cart{animation:mo-right .65s var(--mo-ease) .12s backwards}
+  .cartbar{animation:mo-right .5s var(--mo-ease) backwards}
+  dialog::backdrop{animation:mo-fade .3s cubic-bezier(.22,1,.36,1)}
+
+  
+  .rn{transition:transform .2s var(--mo-ease),background .2s,color .2s}
+  .rn:hover{transform:translateY(-2px)}
+  .rn:active,.kp:active,.cat:active,.ghost:active{transform:scale(.93)}
+  .go:not(:disabled):active{transform:scale(.97)}
+  .kp{transition:transform .1s var(--mo-ease),background .2s}
+  .card{transition:transform .12s var(--mo-ease),border-color .2s,box-shadow .2s}
+  .card:active:not(:disabled){transform:scale(.96)}
+  .cat{transition:transform .2s var(--mo-ease),background .2s,border-color .2s,color .2s}
+  .cat:hover{transform:translateY(-1px)}
+  .kpi{transition:transform .3s var(--mo-ease),border-color .3s}
+  .kpi:hover{transform:translateY(-3px)}
+  .search input:focus{box-shadow:0 0 0 4px rgba(184,230,193,.2)}
+
+  
+  .mo-tick{animation:mo-tick .18s var(--mo-ease);display:inline-block}
+  .cart{position:relative}
+  .cart::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;border:2px solid var(--a1);background:rgba(184,230,193,.08);opacity:0;z-index:3}
+  .cart.mo-flash::before{animation:mo-flash .2s ease-out}
+}

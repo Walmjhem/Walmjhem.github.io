@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" data-project="stayeasy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#3A2713">
+<title>StayEasy | Airbnb-style Houses</title>
+<script>try{if(localStorage.getItem('theme')!=='"light"')document.documentElement.dataset.theme='dark'}catch(e){document.documentElement.dataset.theme='dark'}</script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../../assets/css/project-shell.css">
+<script src="../../assets/js/project-shell.js" defer></script>
+</head>
+<body>
+<div id="bar"></div>
+<header class="nav"><div class="wrap nav-in">
+  <a href="#home" class="logo"><i>⌂</i>StayEasy</a>
+  <nav class="links" id="links" aria-label="Main"><a href="#home">Home</a><a href="#houses">Houses</a><a href="#about">About</a><a href="#amenities">Amenities</a><a href="#contact">Contact</a></nav>
+  <div class="tools"><button class="btn ghost" id="tripsBtn">My trips <span class="badge-n" id="tripN">0</span></button><button class="btn ghost ic" id="theme" aria-label="Toggle theme">☀</button><button class="btn ghost ic" id="menuBtn" aria-label="Menu" aria-expanded="false">☰</button></div>
+</div></header>
+
+<main id="home">
+<section class="hero"><div class="wrap hero-in">
+  <div>
+    <h1>Houses to rent in Negros Occidental</h1>
+    <p class="lead">Four places to stay, from a beach house in Talisay to a cabin in Vallehermoso. Add your dates to see which ones are free.</p>
+    <form class="search" id="search" data-lead-form="availability-search">
+      <label>Where<select id="sArea"><option value="">All areas</option></select></label>
+      <label>Check-in<input type="date" id="sIn"></label>
+      <label>Check-out<input type="date" id="sOut"></label>
+      <label>Guests<input type="number" id="sG" min="1" max="10" value="2"></label>
+      <button class="btn" type="submit" data-cta="hero_check_availability">Check availability</button>
+    </form>
+    <ul class="perks" aria-label="Why book here"><li>Nightly rates shown up front</li><li>Fees listed before you send a request</li><li>Sending a request costs nothing</li></ul>
+  </div>
+  <div class="art" id="heroArt"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=70" alt="Modern villa with pool" onerror="this.style.minHeight='320px'"><div class="cap">Modern Villa · Bacolod City</div></div>
+</div></section>
+
+<section id="houses"><div class="wrap">
+  <div class="head rv"><div><h2>Pick a house</h2><p class="sub">Filter by type or price, save the ones you like, then open a house to check your dates.</p></div></div>
+  <div class="filters" id="types"></div>
+  <div class="filters"><input class="field" id="q" type="search" placeholder="Search houses ( / )" aria-label="Search houses"><select class="field" id="sort" aria-label="Sort"><option value="rec">Recommended</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="top">Top rated</option></select><label class="range">Max <input type="range" id="max" min="2000" max="5000" step="100" value="5000"><output id="maxO">₱5,000</output></label><button class="chipf" id="favOnly" aria-pressed="false">♥ Saved</button><button class="chipf" id="reset">Reset</button></div>
+  <div class="count" id="count" role="status"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>No houses match these filters.<br><br><button class="btn" id="reset2">Clear filters</button>
+    <form class="notify" id="nf" data-lead-form="notify" novalidate><p>Or leave your email and we'll let you know if something opens up.</p><div class="nf-row"><input class="field" id="nfE" type="email" placeholder="Your email" aria-label="Your email" autocomplete="email"><button class="btn ghost" type="submit" data-cta="notify_me">Notify me</button></div><p class="ferr" id="nfErr" role="alert" hidden></p></form>
+  </div>
+</div></section>
+
+<section id="about"><div class="wrap about">
+  <div class="rv"><h2>About StayEasy</h2><p class="sub">StayEasy is a small set of rental houses around Negros Occidental. Each listing shows its nightly rate up front, and the booking summary adds the cleaning and service fees before you send a request.</p></div>
+  <img class="rv" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=70" alt="House exterior" loading="lazy">
+</div></section>
+
+<section id="amenities"><div class="wrap">
+  <div class="rv"><h2>What's included</h2><p class="sub">Not every house has everything, so each listing shows its own list.</p></div>
+  <div class="amens rv">
+    <div class="am"><h3>WiFi</h3><p>Fiber connection in all four houses.</p></div>
+    <div class="am"><h3>Pool</h3><p>Modern Villa only.</p></div>
+    <div class="am"><h3>Parking</h3><p>Space for two cars inside the gate.</p></div>
+    <div class="am"><h3>Air-con</h3><p>Modern Villa, Beach House and Silay Heritage Home.</p></div>
+    <div class="am"><h3>Kitchen</h3><p>Beach House and Mountain Cabin. Stove, fridge and cookware.</p></div>
+    <div class="am"><h3>Self check-in</h3><p>Silay Heritage Home. The key box code is sent the day before.</p></div>
+  </div></div></section>
+
+<section id="how"><div class="wrap">
+  <div class="rv"><h2>How booking works</h2><p class="sub">Three steps, and nothing is charged along the way.</p></div>
+  <ol class="how rv">
+    <li><b>Pick your dates</b><span>Add your dates and guests to see which houses are free.</span></li>
+    <li><b>Send a request</b><span>Choose a house, check the total with fees, and send your details.</span></li>
+    <li><b>We confirm with you</b><span>We reply by email to confirm the dates and next steps.</span></li>
+  </ol>
+</div></section>
+
+<section id="contact"><div class="wrap contact">
+  <div class="rv"><h2>Questions before you book?</h2><p class="sub">Tell us the house and dates you have in mind and we'll reply with what's open.</p></div>
+  <form id="cf" data-lead-form="contact" novalidate>
+    <input class="field" id="cn" name="name" placeholder="Your name" aria-label="Your name" autocomplete="name">
+    <input class="field" id="ce" name="email" type="email" placeholder="Email" aria-label="Email" autocomplete="email">
+    <input class="field" id="cp" name="phone" type="tel" placeholder="Mobile (optional)" aria-label="Mobile number, optional" autocomplete="tel">
+    <select class="field" id="ch" name="house" aria-label="House"><option value="">Any house</option></select>
+    <textarea class="field" id="cm" name="message" placeholder="Which dates, and how many guests?" aria-label="Message"></textarea>
+    <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <p class="ferr" id="cErr" role="alert" hidden></p>
+    <button class="btn" type="submit" data-cta="contact_submit">Send message</button>
+    <p class="ok" id="cOk" role="status" hidden></p>
+  </form>
+</div></section>
+</main>
+<footer><div class="wrap foot"><span>StayEasy · Sample project</span><span>Listings and prices are made up. No payments are taken. Enquiries are not sent anywhere.</span></div></footer>
+<button class="btn back" id="top" aria-label="Back to top">↑</button>
+
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="mT"><div class="modal"><button class="x" id="mx" aria-label="Close">&times;</button><div id="mBody"></div></div></div>
+<aside class="drawer" id="drawer" aria-label="My trips"><button class="x" id="dx" aria-label="Close trips">&times;</button><h2 style="font-size:1.6rem">My trips</h2><p class="note">Saved in this browser only.</p><div id="trips"></div></aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/lead.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
